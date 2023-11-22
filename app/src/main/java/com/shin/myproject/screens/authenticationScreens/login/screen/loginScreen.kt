@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.shin.myproject.R
 import com.shin.myproject.navigation.routes.AuthRoute
+import com.shin.myproject.navigation.routes.Routes
 import com.shin.myproject.screens.authenticationScreens.register.model.NewUser
 import com.shin.myproject.screens.authenticationScreens.register.model.RegistrationObject
 import com.shin.myproject.screens.main.mainScreen.subject.screen.subjectsscreen.embeddedSubjects
@@ -223,6 +224,7 @@ fun LoginScreen( navController: NavHostController ) {
                             // Use the subjects associated with the logged-in user
                             val userSubjects = foundUser.subjects
                             // Further processing...
+                            navController.navigate(route = Routes.LOGINSPLASH.name)
                         } else {
                             showError = true
                         }

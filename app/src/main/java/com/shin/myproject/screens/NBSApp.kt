@@ -25,31 +25,28 @@ fun NBSApp(
     screenViewModel: ScreenViewModel,
 ) {
     val navController: NavHostController = rememberNavController()
-
-    Scaffold {
-        NavHost(navController = navController, startDestination =  Routes.SPLASH.name) {
-            composable(route = Routes.SPLASH.name) {
-                SplashScreen(navController, screenViewModel)
+    NavHost(navController = navController, startDestination =  Routes.SPLASH.name) {
+        composable(route = Routes.SPLASH.name) {
+            SplashScreen(navController, screenViewModel)
+        }
+        composable(route = Routes.LOGINSPLASH.name) {
+            LoggedInSplash(navController, screenViewModel)
+        }
+        composable(route = Routes.REGISTERSPLASH.name) {
+            RegisteredSplash(navController, screenViewModel)
+        }
+        composable(route = Routes.MAIN.name ) {
+            MainScreen(navController, screenViewModel)
+        }
+        navigation(startDestination = AuthRoute.LoginScreen.name, route = Routes.AUTH.name) {
+            composable(route = AuthRoute.LoginScreen.name) {
+                LoginScreen(navController)
             }
-            composable(route = Routes.LOGINSPLASH.name) {
-                LoggedInSplash(navController, screenViewModel)
+            composable(route = AuthRoute.RegistrationScreen.name) {
+                RegisterScreen(navController)
             }
-            composable(route = Routes.REGISTERSPLASH.name) {
-                RegisteredSplash(navController, screenViewModel)
-            }
-            composable(route = Routes.MAIN.name ) {
-                MainScreen(navController, screenViewModel)
-            }
-            navigation(startDestination = AuthRoute.LoginScreen.name, route = Routes.AUTH.name) {
-                composable(route = AuthRoute.LoginScreen.name) {
-                    LoginScreen(navController)
-                }
-                composable(route = AuthRoute.RegistrationScreen.name) {
-                    RegisterScreen(navController)
-                }
-                composable(route = AuthRoute.OTPScreen.name) {
-                    OTPScreen(navController)
-                }
+            composable(route = AuthRoute.OTPScreen.name) {
+                OTPScreen(navController)
             }
         }
     }
