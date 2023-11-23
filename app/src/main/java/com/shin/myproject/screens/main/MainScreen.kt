@@ -6,9 +6,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.shin.myproject.ViewModel.ScreenViewModel
 import com.shin.myproject.navigation.bottomNavBar.BottomNavBar
@@ -19,6 +21,8 @@ import com.shin.myproject.screens.main.mainScreen.analyticDashboard.screen.Dashb
 import com.shin.myproject.screens.main.mainScreen.home.screen.HomeScreen
 import com.shin.myproject.screens.main.mainScreen.notification.screen.NotificationScreen
 import com.shin.myproject.screens.main.mainScreen.profile.screen.ProfileScreen
+import com.shin.myproject.screens.main.mainScreen.subject.model.Subject
+import com.shin.myproject.screens.main.mainScreen.subject.screen.SubjectAttendanceScreen
 import com.shin.myproject.screens.main.mainScreen.subject.screen.SubjectMainScreen
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen.SubjectAddScreen
 

@@ -49,7 +49,7 @@ import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.navigation.routes.Routes
 import com.shin.myproject.screens.authenticationScreens.register.model.NewUser
 import com.shin.myproject.screens.authenticationScreens.register.model.RegistrationObject
-import com.shin.myproject.screens.main.mainScreen.subject.screen.subjectsscreen.embeddedSubjects
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen.embeddedSubjects
 
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,9 +1,8 @@
-package com.shin.myproject.screens.main.mainScreen.subject.screen.subjectsscreen
+package com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen
 
 import com.shin.myproject.screens.main.mainScreen.subject.model.DayListItem
 import com.shin.myproject.screens.main.mainScreen.subject.model.SubjectData
 
-// Function to generate sample subjects
 fun embeddedSubjects(): List<SubjectData> {
     return listOf(
         SubjectData(
