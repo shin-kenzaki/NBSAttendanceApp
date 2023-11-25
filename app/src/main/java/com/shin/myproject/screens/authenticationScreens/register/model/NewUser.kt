@@ -1,6 +1,6 @@
 package com.shin.myproject.screens.authenticationScreens.register.model
 
-import com.shin.myproject.screens.main.mainScreen.subject.model.SubjectData
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.SubjectData
 
 data class NewUser(
     val firstName: String,

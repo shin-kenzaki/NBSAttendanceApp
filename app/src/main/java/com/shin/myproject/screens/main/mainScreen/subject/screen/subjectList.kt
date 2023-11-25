@@ -20,15 +20,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.shin.myproject.ViewModel.SubjectViewModel
 import com.shin.myproject.navigation.routes.SubjectRoute
-import com.shin.myproject.screens.main.mainScreen.subject.model.Subject
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen.embeddedSubjects
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.SubjectList
+import com.shin.myproject.screens.main.mainScreen.embeddedSubjects
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.subjectCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SubjectMainScreen(navController: NavController) {
+fun SubjectScreen(navController: NavController, viewModel: SubjectViewModel) {
 
-    val allSubjects = Subject.subjectList + embeddedSubjects()
+    val allSubjects = SubjectList.subjectList + embeddedSubjects()
 
     Scaffold(
         topBar = {
@@ -37,7 +39,7 @@ fun SubjectMainScreen(navController: NavController) {
                 actions = {
                     IconButton(
                         onClick = {
-                            navController.navigate(SubjectRoute.SubjectAddScreen.name)
+                            navController.navigate(SubjectRoute.AddSubjectScreen.name)
                         }
                     ) {
                         Icon(
@@ -59,17 +61,13 @@ fun SubjectMainScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-
-//        LazyColumn {
-//            items(allSubjects) { subject ->
-//                ClickableSubjectCard(subject = subject) {
-//                }
-//            }
-//        }
-
             LazyColumn {
                 items(allSubjects) { subject ->
-                    SwipeableCard(subject = subject) {
+                    subjectCard(subject = subject, onClick = {
+                        viewModel.selectedSubject = subject
+                        navController.navigate(SubjectRoute.Students.name)
+                    }) {
+
                     }
                 }
             }

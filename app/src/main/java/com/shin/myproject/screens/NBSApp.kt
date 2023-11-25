@@ -1,7 +1,6 @@
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -22,7 +21,7 @@ import com.shin.myproject.screens.authenticationScreens.register.screen.Register
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NBSApp(
-    screenViewModel: ScreenViewModel,
+    screenViewModel: ScreenViewModel
 ) {
     val navController: NavHostController = rememberNavController()
     NavHost(navController = navController, startDestination =  Routes.SPLASH.name) {
@@ -36,7 +35,7 @@ fun NBSApp(
             RegisteredSplash(navController, screenViewModel)
         }
         composable(route = Routes.MAIN.name ) {
-            MainScreen(navController, screenViewModel)
+            MainScreen(navController)
         }
         navigation(startDestination = AuthRoute.LoginScreen.name, route = Routes.AUTH.name) {
             composable(route = AuthRoute.LoginScreen.name) {

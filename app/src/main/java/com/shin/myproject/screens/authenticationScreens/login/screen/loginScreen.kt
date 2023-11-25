@@ -49,7 +49,7 @@ import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.navigation.routes.Routes
 import com.shin.myproject.screens.authenticationScreens.register.model.NewUser
 import com.shin.myproject.screens.authenticationScreens.register.model.RegistrationObject
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen.embeddedSubjects
+import com.shin.myproject.screens.main.mainScreen.embeddedSubjects
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -145,6 +145,7 @@ fun LoginScreen( navController: NavHostController ) {
                         color = if (isPasswordValid) Color.Red else Color.Gray
                     )
                 },
+                singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Red,

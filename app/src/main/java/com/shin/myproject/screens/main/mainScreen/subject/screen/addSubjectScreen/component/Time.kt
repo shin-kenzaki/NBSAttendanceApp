@@ -1,4 +1,4 @@
-package com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen
+package com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component
 
 import android.util.Log
 import androidx.compose.material3.Button
@@ -9,11 +9,11 @@ import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
-import com.shin.myproject.screens.main.mainScreen.subject.model.AmPm
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.AmPm
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Clock(title: String, onTimeSelected: (Int, Int, AmPm) -> Unit) {
+fun clock(title: String, onTimeSelected: (Int, Int, AmPm) -> Unit) {
     val clockState = rememberSheetState()
 
     ClockDialog(

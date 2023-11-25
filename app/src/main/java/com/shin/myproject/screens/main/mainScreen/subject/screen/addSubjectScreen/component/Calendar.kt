@@ -1,4 +1,4 @@
-package com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen
+package com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Calendar(){
+fun calendar(){
     val calendarState = rememberSheetState()
 
     Column(

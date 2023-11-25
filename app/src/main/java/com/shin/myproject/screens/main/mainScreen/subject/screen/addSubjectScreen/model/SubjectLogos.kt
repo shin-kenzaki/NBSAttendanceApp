@@ -1,16 +1,12 @@
-package com.shin.myproject.screens.main.mainScreen.subject.model
+package com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
-import androidx.compose.material.icons.filled.Brush
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.DesktopWindows
-import androidx.compose.material.icons.filled.FlightTakeoff
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.material.icons.filled.TextFormat
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.ui.graphics.vector.ImageVector
 

@@ -17,6 +17,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,7 +33,7 @@ fun BottomNavBar(navController: NavController) {
         BottomNavItem("Notifications", Icons.Filled.Notifications, Icons.Outlined.Notifications, MainRoute.Notifications.name) ,
         BottomNavItem("Profile", Icons.Filled.Person, Icons.Outlined.Person, MainRoute.Profile.name)
     )
-    var selectedItem by remember { mutableStateOf(0) }
+    var selectedItem by remember { mutableIntStateOf(0) }
 
     NavigationBar {
         items.forEachIndexed { index, item ->

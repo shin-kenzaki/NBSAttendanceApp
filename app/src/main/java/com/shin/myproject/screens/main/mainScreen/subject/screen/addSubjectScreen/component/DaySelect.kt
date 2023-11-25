@@ -1,4 +1,4 @@
-package com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen
+package com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -19,20 +19,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.shin.myproject.screens.main.mainScreen.subject.model.DayListItem
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.DayListItem
 
 @Composable
-fun DaySelect(onDaysSelected: (List<DayListItem>) -> Unit) {
+fun daySelect(onDaysSelected: (List<DayListItem>) -> Unit) {
     var items by remember {
         mutableStateOf(
             listOf(
-                "S",
-                "M",
-                "T",
-                "W",
-                "T",
-                "F",
-                "S",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
             ).map {
                 DayListItem(
                     title = "$it",

@@ -1,4 +1,4 @@
-package com.shin.myproject.screens.main.mainScreen.subject.screen.addsubjectscreen
+package com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,10 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.shin.myproject.navigation.routes.SubjectRoute
-import com.shin.myproject.screens.main.mainScreen.subject.model.DayListItem
-import com.shin.myproject.screens.main.mainScreen.subject.model.Subject
-import com.shin.myproject.screens.main.mainScreen.subject.model.SubjectData
+import com.shin.myproject.navigation.routes.MainRoute
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.DayListItem
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.SubjectData
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.SubjectList
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.clock
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.daySelect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,7 +99,7 @@ fun SubjectAddScreen(navController: NavController) {
                 )
             }
 
-            DaySelect { days ->
+            daySelect { days ->
                 selectedDays = days
             }
 
@@ -108,7 +110,7 @@ fun SubjectAddScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Clock(
+                clock(
                     title = "Start Time",
                     onTimeSelected = { hours, minutes, amPm ->
                         val formattedTime = String.format("%02d:%02d %s", hours, minutes, amPm.name)
@@ -133,7 +135,7 @@ fun SubjectAddScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Clock(
+                clock(
                     title = "End Time",
                     onTimeSelected = { hours, minutes, amPm ->
                         val formattedTime = String.format("%02d:%02d %s", hours, minutes, amPm.name)
@@ -171,8 +173,8 @@ fun SubjectAddScreen(navController: NavController) {
                             startTime = selectedStartTime,
                             endTime = selectedEndTime
                         )
-                        Subject.subjectList.add(subjectData)
-                        navController.navigate(route = SubjectRoute.SubjectMainScreen.name)
+                        SubjectList.subjectList.add(subjectData)
+                        navController.navigate(route = MainRoute.Subjects.name)
                     } else {
                         errorMessage = "Subject code and subject name cannot be empty"
                     }

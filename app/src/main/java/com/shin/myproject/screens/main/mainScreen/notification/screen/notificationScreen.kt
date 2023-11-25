@@ -1,40 +1,25 @@
 package com.shin.myproject.screens.main.mainScreen.notification.screen
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.shin.myproject.R
+import com.shin.myproject.screens.main.mainScreen.embeddedSubjects
+import com.shin.myproject.screens.main.mainScreen.notification.components.ClickableCard
+import com.shin.myproject.screens.main.mainScreen.notification.model.Notification
+import com.shin.myproject.screens.main.mainScreen.notification.model.NotificationProvider
 
 @Composable
-fun NotificationScreen(navController:NavController){
+fun NotificationScreen(navController: NavController, subjects: List<Notification>) {
+    val embeddedSubjects = embeddedSubjects()
+    val notifications = NotificationProvider.getNotificationsForSubjects(embeddedSubjects)
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.nbslogo),
-            contentDescription = "NBS LOGO"
-        )
-        Text(
-            "Welcome to the Notifications",
-            style = TextStyle(fontSize = 25.sp, color = Color.Black)
-        )
-        Text(
-            " ",
-            style = TextStyle(fontSize = 18.sp, color = Color.Gray)
-        )
+    LazyColumn {
+        items(notifications) { notification ->
+            ClickableCard(notification = notification) {
+                // Handle click action, for example, navigate to a detail screen
+                // or perform an action related to the notification.
+            }
+        }
     }
-
 }

@@ -1,7 +1,9 @@
 package com.shin.myproject.ViewModel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.SubjectData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -9,6 +11,7 @@ import kotlinx.coroutines.launch
 
 
 class ScreenViewModel : ViewModel() {
+
     private val _splashLoaded = MutableStateFlow(false)
     val splashLoaded = _splashLoaded.asStateFlow()
 
