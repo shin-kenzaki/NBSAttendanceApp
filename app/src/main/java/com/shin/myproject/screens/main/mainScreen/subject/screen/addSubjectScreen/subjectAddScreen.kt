@@ -26,12 +26,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
 import com.shin.myproject.navigation.routes.MainRoute
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.DayListItem
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.SubjectData
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.SubjectList
+import com.shin.myproject.data.mainscreenModel.subjectModel.DayListItem
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.clock
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.daySelect
 
@@ -45,6 +45,7 @@ fun SubjectAddScreen(navController: NavController) {
     var selectedEndTime by remember { mutableStateOf("00:00 AM") }
     var selectedDays by remember { mutableStateOf(emptyList<DayListItem>()) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val viewModel: SubjectAddViewModel = viewModel()
 
     Scaffold(
         topBar = {
@@ -165,15 +166,15 @@ fun SubjectAddScreen(navController: NavController) {
             Button(
                 onClick = {
                     if (subjectCode.isNotEmpty() && subjectName.isNotEmpty()) {
-                        val subjectData = SubjectData(
+                        viewModel.saveSubject(
+                            userId = 1, // Replace with the actual user ID
                             subjectCode = subjectCode,
                             subjectName = subjectName,
-                            subjectDescription = subjectDescription,
                             selectedDays = selectedDays,
                             startTime = selectedStartTime,
-                            endTime = selectedEndTime
+                            endTime = selectedEndTime,
+                            subjectDescription = subjectDescription
                         )
-                        SubjectList.subjectList.add(subjectData)
                         navController.navigate(route = MainRoute.Subjects.name)
                     } else {
                         errorMessage = "Subject code and subject name cannot be empty"

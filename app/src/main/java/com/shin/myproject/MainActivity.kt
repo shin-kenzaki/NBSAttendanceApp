@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                         .wrapContentWidth(Alignment.CenterHorizontally)
                         .wrapContentHeight(Alignment.CenterVertically)
                 ) {
-                    NBSApp(screenViewModel)
+                    NBSApp()
                 }
             }
         }

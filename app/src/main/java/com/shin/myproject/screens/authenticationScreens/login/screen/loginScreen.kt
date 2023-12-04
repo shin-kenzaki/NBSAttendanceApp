@@ -1,6 +1,7 @@
 package com.shin.myproject.screens.authenticationScreens.login.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,35 +44,28 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.shin.myproject.R
+import com.shin.myproject.ViewModel.user.AppViewModelProvider
+import com.shin.myproject.ViewModel.user.LoginViewModel
 import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.navigation.routes.Routes
-import com.shin.myproject.screens.authenticationScreens.register.model.NewUser
-import com.shin.myproject.screens.authenticationScreens.register.model.RegistrationObject
-import com.shin.myproject.screens.main.mainScreen.embeddedSubjects
-
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen( navController: NavHostController ) {
-
+fun LoginScreen(
+    navController: NavHostController,
+    loginViewModel: LoginViewModel = viewModel(factory = AppViewModelProvider.Factory)
+) {
     var username by remember { mutableStateOf("") }
-    var isUsernameValid by remember { mutableStateOf(false) }
     var passwordVisible by remember { mutableStateOf(false) }
     var password by remember { mutableStateOf("") }
-    var isPasswordValid by remember { mutableStateOf(false) }
-    var showError by remember { mutableStateOf(false) }
-    val defaultUser = remember {
-        NewUser("user1", "", "", "user1@gmail.com", "password1", embeddedSubjects())
-    }
-    RegistrationObject.userList.add(defaultUser)
-    val loginDataList = remember {
-        // Use the RegistrationObject.userList instead of a separate list
-        RegistrationObject.userList
-    }
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         modifier = Modifier
@@ -104,67 +100,56 @@ fun LoginScreen( navController: NavHostController ) {
                 modifier = Modifier
                     .padding(top = 8.dp)
             )
+
             OutlinedTextField(
                 value = username,
-                onValueChange = { newUsername ->
-                    username = newUsername
-                    isUsernameValid = newUsername.isNotEmpty()
-                },
+                onValueChange = { username = it },
                 label = {
                     Text(
-                        text = "Username",
-                        color = if (isUsernameValid) Color.Red else Color.Gray
+                        text = "Username/Email",
+                        color = Color.Red
                     )
                 },
-                singleLine = true, // Set singleLine to true
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Red,
                     unfocusedIndicatorColor = Color.Gray
                 ),
+                singleLine = true,
                 trailingIcon = {
                     Icon(
                         imageVector = Icons.Default.MailOutline,
                         contentDescription = "Email",
-                        tint = if (isUsernameValid) Color.Red else Color.Gray
+                        tint = Color.LightGray
                     )
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 25.dp)
             )
+
             OutlinedTextField(
                 value = password,
-                onValueChange = { newPassword ->
-                    password = newPassword
-                    isPasswordValid = newPassword.isNotEmpty()
-                },
+                onValueChange = { password = it },
                 label = {
                     Text(
                         text = "Password",
-                        color = if (isPasswordValid) Color.Red else Color.Gray
+                        color = Color.Red
                     )
                 },
-                singleLine = true,
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Red,
                     unfocusedIndicatorColor = Color.Gray
                 ),
-
                 trailingIcon = {
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            imageVector = if (passwordVisible) Icons.Default.Lock else Icons.Default.Lock,
-                            contentDescription = "Toggle Password Visibility",
-                            tint = if (passwordVisible) Color.Gray else if (password.isNotEmpty()) Color.Red else Color.Gray
-                        )
+                    PasswordToggleIcon(passwordVisible) {
+                        passwordVisible = !passwordVisible
                     }
                 },
+                singleLine = true,
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 25.dp)
             )
             Row(
                 modifier = Modifier
@@ -192,9 +177,9 @@ fun LoginScreen( navController: NavHostController ) {
 
                     Text(
                         text = "Remember Me",
-                        color = Color.Black,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(start = 4.dp)
                     )
                 }
                 ClickableText(
@@ -203,31 +188,25 @@ fun LoginScreen( navController: NavHostController ) {
                     style = TextStyle(
                         color = Color.Red,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                        fontWeight = FontWeight.Bold,
+                        textDecoration = TextDecoration.Underline
+                    ),
+                    modifier = Modifier.padding(end = 4.dp)
                 )
             }
-            if (showError) {
-                Text(
-                    text = "Incorrect username or password",
-                    color = Color.Red,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
                     onClick = {
-                        val foundUser = loginDataList.find { it.email == username && it.password == password }
-                        if (foundUser != null) {
-                            // Use the subjects associated with the logged-in user
-                            val userSubjects = foundUser.subjects
-                            // Further processing...
-                            navController.navigate(route = Routes.LOGINSPLASH.name)
-                        } else {
-                            showError = true
+                        coroutineScope.launch {
+                            val loginSuccess = loginViewModel.loginUser(username, password)
+                            if (loginSuccess) {
+                                // Navigate to the main screen
+                                navController.navigate(route = Routes.MAIN.name)
+                            }
                         }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
@@ -275,5 +254,16 @@ fun LoginScreen( navController: NavHostController ) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun PasswordToggleIcon(passwordVisible: Boolean, onClick: () -> Unit) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = if (passwordVisible) Icons.Default.LockOpen else Icons.Default.Lock,
+            contentDescription = "Toggle Password Visibility",
+            tint = Color.LightGray
+        )
     }
 }

@@ -9,7 +9,7 @@ import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.AmPm
+import com.shin.myproject.data.mainscreenModel.subjectModel.AmPm
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

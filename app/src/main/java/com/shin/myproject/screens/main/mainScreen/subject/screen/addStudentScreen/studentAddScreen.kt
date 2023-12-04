@@ -3,29 +3,27 @@ package com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScre
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardBackspace
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.shin.myproject.ViewModel.student.StudentAddViewModel
 import com.shin.myproject.navigation.routes.MainRoute
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScreen.model.StudentData
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScreen.model.StudentList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StudentAddScreen(navController : NavController) {
-    var id by remember { mutableStateOf("") }
+    var studentNumber by remember { mutableStateOf("") }
     var firstName by remember { mutableStateOf("") }
     var middleInit by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var isWorking by remember { mutableStateOf(false) }
-
+    val viewModel: StudentAddViewModel = viewModel()
 
     Scaffold(
         topBar = {
@@ -49,12 +47,16 @@ fun StudentAddScreen(navController : NavController) {
                 .padding(innerPadding)
         ) {
             OutlinedTextField(
-                value = id,
-                onValueChange = { id = it },
-                label = { Text("ID") },
+                value = studentNumber,
+                onValueChange = { studentNumber = it },
+                label = { Text("Student Number") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                    .padding(bottom = 8.dp),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Color.Red,
+                    unfocusedBorderColor = Color.Red
+                )
             )
 
             Row(
@@ -68,7 +70,11 @@ fun StudentAddScreen(navController : NavController) {
                     label = { Text("First Name") },
                     modifier = Modifier
                         .weight(1f)
-                        .padding(end = 8.dp)
+                        .padding(end = 8.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Red,
+                        unfocusedBorderColor = Color.Red
+                    )
                 )
                 OutlinedTextField(
                     value = middleInit,
@@ -76,7 +82,11 @@ fun StudentAddScreen(navController : NavController) {
                     label = { Text("Middle Initial") },
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 8.dp)
+                        .padding(start = 8.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Red,
+                        unfocusedBorderColor = Color.Red
+                    )
                 )
                 OutlinedTextField(
                     value = lastName,
@@ -84,7 +94,11 @@ fun StudentAddScreen(navController : NavController) {
                     label = { Text("Last Name") },
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 8.dp)
+                        .padding(start = 8.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Red,
+                        unfocusedBorderColor = Color.Red
+                    )
                 )
             }
 
@@ -104,9 +118,15 @@ fun StudentAddScreen(navController : NavController) {
 
             Button(
                 onClick = {
-                    // Save button action
-                    val studentToAdd = StudentData(id, firstName, middleInit, lastName)
-                    StudentList.students.add(studentToAdd)
+                    // Call the ViewModel function to add the student
+                    viewModel.addStudent(studentNumber, firstName, middleInit, lastName, isWorking)
+
+                    // Clear the input fields after saving
+                    studentNumber = ""
+                    firstName = ""
+                    middleInit = ""
+                    lastName = ""
+                    isWorking = false
                 },
                 modifier = Modifier
                     .fillMaxWidth()

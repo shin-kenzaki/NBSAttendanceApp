@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.DayListItem
+import com.shin.myproject.data.mainscreenModel.subjectModel.DayListItem
 
 @Composable
 fun daySelect(onDaysSelected: (List<DayListItem>) -> Unit) {

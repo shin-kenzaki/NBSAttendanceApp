@@ -10,30 +10,19 @@ import androidx.navigation.navigation
 import com.shin.myproject.ViewModel.ScreenViewModel
 import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.navigation.routes.Routes
-import com.shin.myproject.screens.SplashScreen
-import com.shin.myproject.screens.authenticationScreens.login.screen.LoggedInSplash
 import com.shin.myproject.screens.authenticationScreens.login.screen.LoginScreen
-import com.shin.myproject.screens.authenticationScreens.otp.screen.OTPScreen
-import com.shin.myproject.screens.authenticationScreens.register.screen.RegisterScreen
-import com.shin.myproject.screens.authenticationScreens.register.screen.RegisteredSplash
+import com.shin.myproject.screens.authenticationScreens.otp.OTPScreen
+import com.shin.myproject.screens.authenticationScreens.register.screen.RegistrationScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NBSApp(
-    screenViewModel: ScreenViewModel
-) {
+fun NBSApp() {
     val navController: NavHostController = rememberNavController()
-    NavHost(navController = navController, startDestination =  Routes.SPLASH.name) {
-        composable(route = Routes.SPLASH.name) {
-            SplashScreen(navController, screenViewModel)
-        }
-        composable(route = Routes.LOGINSPLASH.name) {
-            LoggedInSplash(navController, screenViewModel)
-        }
-        composable(route = Routes.REGISTERSPLASH.name) {
-            RegisteredSplash(navController, screenViewModel)
-        }
+    NavHost(navController = navController, startDestination =  Routes.AUTH.name)  {
+//        composable(route = Routes.SPLASH.name) {
+//            SplashScreen(navController, screenViewModel)
+//        }
         composable(route = Routes.MAIN.name ) {
             MainScreen(navController)
         }
@@ -42,7 +31,7 @@ fun NBSApp(
                 LoginScreen(navController)
             }
             composable(route = AuthRoute.RegistrationScreen.name) {
-                RegisterScreen(navController)
+                RegistrationScreen(navController)
             }
             composable(route = AuthRoute.OTPScreen.name) {
                 OTPScreen(navController)

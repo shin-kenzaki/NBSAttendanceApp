@@ -3,30 +3,17 @@ package com.shin.myproject.screens.main.mainScreen.notification.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.shin.myproject.R
 import com.shin.myproject.screens.main.mainScreen.notification.model.Notification
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.DayListItem
-import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.model.SubjectData
 
 @Composable
 fun ClickableCard(notification: Notification, onClick: () -> Unit) {
