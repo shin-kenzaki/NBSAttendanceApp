@@ -1,5 +1,6 @@
 package com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,33 +23,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
-import com.shin.myproject.navigation.routes.MainRoute
+import com.shin.myproject.ViewModel.subject.SubjectDetails
+import com.shin.myproject.ViewModel.user.AppViewModelProvider
 import com.shin.myproject.data.mainscreenModel.subjectModel.DayListItem
-import com.shin.myproject.screens.authenticationScreens.login.screen.PasswordToggleIcon
+import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.Clock
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.daySelect
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SubjectAddScreen(navController: NavController) {
+fun SubjectAddScreen(navController: NavController,
+                     subjectAddViewModel: SubjectAddViewModel = viewModel(factory = AppViewModelProvider.Factory)
+) {
+    val coroutineScope = rememberCoroutineScope()
     var subjectCode by remember { mutableStateOf("") }
     var subjectName by remember { mutableStateOf("") }
     var subjectDescription by remember { mutableStateOf("") }
     var selectedStartTime by remember { mutableStateOf("00:00 AM") }
     var selectedEndTime by remember { mutableStateOf("00:00 AM") }
     var selectedDays by remember { mutableStateOf(emptyList<DayListItem>()) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-    val viewModel: SubjectAddViewModel = viewModel()
 
     Scaffold(
         topBar = {
@@ -174,19 +176,19 @@ fun SubjectAddScreen(navController: NavController) {
             )
             Button(
                 onClick = {
-                    if (subjectCode.isNotEmpty() && subjectName.isNotEmpty()) {
-                        viewModel.saveSubject(
-                            userId = 1, // Replace with the actual user ID
+                    coroutineScope.launch {
+                        var subjectUiState = subjectAddViewModel.subjectUiState
+                        subjectUiState.subjectDetails = SubjectDetails(
                             subjectCode = subjectCode,
                             subjectName = subjectName,
-                            selectedDays = selectedDays,
+                            subjectDay = selectedDays,
                             startTime = selectedStartTime,
                             endTime = selectedEndTime,
                             subjectDescription = subjectDescription
                         )
-                        navController.navigate(route = MainRoute.Subjects.name)
-                    } else {
-                        errorMessage = "Subject code and subject name cannot be empty"
+                        subjectAddViewModel.saveSubject()
+                        Log.i("subjectUiState", subjectUiState.subjectDetails.toString())
+                        navController.navigate(AuthRoute.LoginScreen.name)
                     }
                 },
                 modifier = Modifier

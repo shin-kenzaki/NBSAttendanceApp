@@ -27,7 +27,6 @@ import com.shin.myproject.ViewModel.student.StudentScreenViewModel
 import com.shin.myproject.data.mainscreenModel.studentModel.StudentList
 import com.shin.myproject.navigation.routes.MainRoute
 import com.shin.myproject.navigation.routes.SubjectRoute
-import com.shin.myproject.screens.main.mainScreen.embeddedSubjects
 import com.shin.myproject.data.mainscreenModel.subjectModel.Subject
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScreen.component.studentCard
 

@@ -6,15 +6,6 @@ import com.shin.myproject.data.mainscreenModel.subjectModel.Subject
 import kotlinx.coroutines.flow.Flow
 
 interface SubjectRepository {
-    /**
-     * Retrieve all the students from the given data source.
-     */
-    fun getAllSubjectStream(): Flow<List<Subject>>
-
-    /**
-     * Retrieve a student from the given data source that matches with the [studentId].
-     */
-    fun getSubjectStream(subjectId: Long): Flow<Subject?>
 
     /**
      * Insert a student into the data source.

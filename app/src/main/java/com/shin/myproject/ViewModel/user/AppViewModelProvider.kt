@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
 
 /**
  * Provides Factory to create instance of ViewModel for the entire Inventory app
@@ -24,6 +25,13 @@ object AppViewModelProvider {
         initializer {
             LoginViewModel(
                 nbsAttendanceApplication().container.userRepository
+            )
+        }
+
+        // Initializer for SubjectViewModel
+        initializer {
+            SubjectAddViewModel (
+                nbsAttendanceApplication().container.subjectRepository
             )
         }
     }

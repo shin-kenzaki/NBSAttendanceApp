@@ -102,4 +102,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-common:$room_version")
     implementation("androidx.room:room-runtime:$room_version")
+
+    //Data Converter
+    implementation ("com.google.code.gson:gson:2.9.0")
+
 }

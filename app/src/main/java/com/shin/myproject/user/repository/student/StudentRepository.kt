@@ -6,16 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface StudentRepository {
     /**
-     * Retrieve all the students from the given data source.
-     */
-    fun getAllStudentStream(): Flow<List<Student>>
-
-    /**
-     * Retrieve a student from the given data source that matches with the [studentId].
-     */
-    fun getStudentStream(studentId: Long): Flow<Student?>
-
-    /**
      * Insert a student into the data source.
      */
     suspend fun insertStudent(student: Student)
