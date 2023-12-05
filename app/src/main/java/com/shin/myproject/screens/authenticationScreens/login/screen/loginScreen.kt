@@ -267,3 +267,4 @@ fun PasswordToggleIcon(passwordVisible: Boolean, onClick: () -> Unit) {
         )
     }
 }
+

@@ -49,7 +49,7 @@ fun daySelect(onDaysSelected: (List<DayListItem>) -> Unit) {
         items(items.size) { i ->
         Row(
                 modifier = Modifier
-                    .width(80.dp)
+                    .fillMaxWidth(2f)
                     .padding(5.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically

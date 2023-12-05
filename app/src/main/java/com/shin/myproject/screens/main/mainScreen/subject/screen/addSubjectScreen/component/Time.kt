@@ -1,19 +1,29 @@
 package com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component
 
 import android.util.Log
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.LockOpen
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
 import com.shin.myproject.data.mainscreenModel.subjectModel.AmPm
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.SubjectAddScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun clock(title: String, onTimeSelected: (Int, Int, AmPm) -> Unit) {
+fun Clock(contentDescription: String, onTimeSelected: (Int, Int, AmPm) -> Unit) {
     val clockState = rememberSheetState()
 
     ClockDialog(
@@ -29,9 +39,11 @@ fun clock(title: String, onTimeSelected: (Int, Int, AmPm) -> Unit) {
         }
     )
 
-    Button(
-        onClick = { clockState.show() }
-    ) {
-        Text(text = "Select $title")
+    IconButton(onClick = { clockState.show() } ) {
+        Icon(
+            imageVector = Icons.Default.Schedule,
+            contentDescription = "$contentDescription",
+            tint = Color.LightGray
+        )
     }
 }
