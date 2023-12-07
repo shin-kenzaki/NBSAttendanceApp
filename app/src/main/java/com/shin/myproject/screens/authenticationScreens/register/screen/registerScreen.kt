@@ -58,7 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.shin.myproject.ViewModel.user.AppViewModelProvider
+import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.user.RegisterViewModel
 import com.shin.myproject.ViewModel.user.UserDetails
 import com.shin.myproject.navigation.routes.AuthRoute

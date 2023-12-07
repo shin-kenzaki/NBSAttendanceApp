@@ -7,8 +7,4 @@ import androidx.navigation.NavController
 @Composable
 fun NotificationScreen(navController: NavController) {
 
-    LazyColumn {
-
-
-    }
 }

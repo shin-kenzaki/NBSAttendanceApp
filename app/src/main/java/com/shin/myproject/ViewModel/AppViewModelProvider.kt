@@ -1,4 +1,4 @@
-package com.shin.myproject.ViewModel.user
+package com.shin.myproject.ViewModel
 
 import com.shin.myproject.NBSAttendanceApp
 import com.shin.myproject.ViewModel.user.RegisterViewModel
@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
+import com.shin.myproject.ViewModel.user.LoginViewModel
 
 /**
  * Provides Factory to create instance of ViewModel for the entire Inventory app

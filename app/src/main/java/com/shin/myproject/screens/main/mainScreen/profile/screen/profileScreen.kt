@@ -30,22 +30,4 @@ import com.shin.myproject.navigation.routes.MainRoute
 @Composable
 fun ProfileScreen(navController:NavController) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.nbslogo),
-            contentDescription = "NBS LOGO",
-            modifier = Modifier.size(200.dp)
-        )
-        Text(
-            "Welcome to the Profile",
-            style = TextStyle(fontSize = 25.sp, color = Color.Black),
-            modifier = Modifier.padding(vertical = 16.dp)
-        )
-    }
 }

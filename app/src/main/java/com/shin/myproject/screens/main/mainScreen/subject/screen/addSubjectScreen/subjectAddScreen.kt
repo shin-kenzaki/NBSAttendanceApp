@@ -33,7 +33,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
 import com.shin.myproject.ViewModel.subject.SubjectDetails
-import com.shin.myproject.ViewModel.user.AppViewModelProvider
+import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.data.mainscreenModel.subjectModel.DayListItem
 import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.Clock

@@ -5,4 +5,5 @@ enum class Routes {
     AUTH,
     MAIN,
     SUBJECTS,
+    PROFILE
 }

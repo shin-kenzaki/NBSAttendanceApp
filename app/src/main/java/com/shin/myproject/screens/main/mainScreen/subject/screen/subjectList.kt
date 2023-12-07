@@ -35,47 +35,4 @@ import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScree
 @Composable
 fun SubjectScreen(navController: NavController, viewModel: SubjectScreenViewModel = viewModel()) {
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Subjects") },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            navController.navigate(SubjectRoute.AddSubjectScreen.name)
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "add new subject"
-                        )
-                    }
-                }
-            )
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .fillMaxWidth()
-                .padding(horizontal = 25.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            val subjects = viewModel.setSubjects(subjects)
-
-            LazyColumn {
-                items(viewModel.subjects.value) { subject ->
-                    // Use the subjectCard component for each item in the LazyColumn
-                    subjectCard(subject = subject, onClick = {
-                        // Handle click actions here
-                        navController.navigate(SubjectRoute.StudentsScreen.name)
-                    }) {
-
-                    }
-                }
-            }
-        }
-    }
 }

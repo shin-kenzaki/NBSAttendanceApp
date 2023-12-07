@@ -1,7 +1,6 @@
 package com.shin.myproject.screens.authenticationScreens.login.screen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,7 +49,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.shin.myproject.R
-import com.shin.myproject.ViewModel.user.AppViewModelProvider
+import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.user.LoginViewModel
 import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.navigation.routes.Routes

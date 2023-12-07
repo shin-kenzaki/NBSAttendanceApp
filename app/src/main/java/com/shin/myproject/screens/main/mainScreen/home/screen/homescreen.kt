@@ -18,23 +18,4 @@ import com.shin.myproject.R
 @Composable
 fun HomeScreen(navController:NavController){
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.nbslogo),
-            contentDescription = "NBS LOGO"
-        )
-        Text(
-            "Welcome to the Home Screen",
-            style = TextStyle(fontSize = 25.sp, color = Color.Black)
-        )
-        Text(
-            " ",
-            style = TextStyle(fontSize = 18.sp, color = Color.Gray)
-        )
-    }
-
 }
