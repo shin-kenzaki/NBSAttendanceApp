@@ -42,8 +42,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SubjectAddScreen(navController: NavController,
-                     subjectAddViewModel: SubjectAddViewModel = viewModel(factory = AppViewModelProvider.Factory)
+fun SubjectAddScreen(
+    navController: NavController,
+    subjectAddViewModel: SubjectAddViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
     var subjectCode by remember { mutableStateOf("") }
@@ -53,150 +54,127 @@ fun SubjectAddScreen(navController: NavController,
     var selectedEndTime by remember { mutableStateOf("00:00 AM") }
     var selectedDays by remember { mutableStateOf(emptyList<DayListItem>()) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = "Add Subject Screen")
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth(),
-            )
-        }
-    ) {innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Row(
+            modifier = Modifier,
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Row(
-                modifier = Modifier,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                OutlinedTextField(
-                    value = subjectCode,
-                    onValueChange = { subjectCode = it },
-                    label = { Text("Subject Code") },
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(5.dp),
-                    singleLine = true
-                )
-
-                OutlinedTextField(
-                    value = subjectName,
-                    onValueChange = { subjectName = it },
-                    label = { Text("Subject Name") },
-                    modifier = Modifier
-                        .weight(3f)
-                        .padding(5.dp),
-                    singleLine = true
-                )
-            }
-
-            daySelect { days ->
-                selectedDays = days
-            }
-
-            Row(
+            OutlinedTextField(
+                value = subjectCode,
+                onValueChange = { subjectCode = it },
+                label = { Text("Subject Code") },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .weight(1f)
                     .padding(5.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                OutlinedTextField(
-                    value = selectedStartTime,
-                    onValueChange = { /* Nothing for now */ },
-                    label = { Text("Selected Start Time") },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Red,
-                        unfocusedIndicatorColor = Color.Gray
-                    ),
-                    trailingIcon = {
-                        Clock(
-                            contentDescription = "Start Time",
-                            onTimeSelected = { hours, minutes, amPm ->
-                                val formattedTime = String.format("%02d:%02d %s", hours, minutes, amPm.name)
-                                selectedStartTime = formattedTime
-                            }
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(5.dp)
-                )
-
-                OutlinedTextField(
-                    value = selectedEndTime,
-                    onValueChange = { /* Nothing for now */ },
-                    label = { Text("End Time") },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Red,
-                        unfocusedIndicatorColor = Color.Gray
-                    ),
-                    trailingIcon = {
-                        Clock(
-                            contentDescription = "End Time",
-                            onTimeSelected = { hours, minutes, amPm ->
-                                val formattedTime = String.format("%02d:%02d %s", hours, minutes, amPm.name)
-                                selectedEndTime = formattedTime
-                            }
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(5.dp)
-                )
-            }
+                singleLine = true
+            )
 
             OutlinedTextField(
-                value = subjectDescription,
-                onValueChange = { subjectDescription = it },
-                label = { Text("Subject Description") },
+                value = subjectName,
+                onValueChange = { subjectName = it },
+                label = { Text("Subject Name") },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp)
+                    .weight(3f)
+                    .padding(5.dp),
+                singleLine = true
             )
-            Button(
-                onClick = {
-                    coroutineScope.launch {
-                        var subjectUiState = subjectAddViewModel.subjectUiState
-                        subjectUiState.subjectDetails = SubjectDetails(
-                            subjectCode = subjectCode,
-                            subjectName = subjectName,
-                            subjectDay = selectedDays,
-                            startTime = selectedStartTime,
-                            endTime = selectedEndTime,
-                            subjectDescription = subjectDescription
-                        )
-                        subjectAddViewModel.saveSubject()
-                        Log.i("subjectUiState", subjectUiState.subjectDetails.toString())
-                        navController.navigate(AuthRoute.LoginScreen.name)
-                    }
+        }
+
+        daySelect { days ->
+            selectedDays = days
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedTextField(
+                value = selectedStartTime,
+                onValueChange = { /* Nothing for now */ },
+                label = { Text("Selected Start Time") },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Red,
+                    unfocusedIndicatorColor = Color.Gray
+                ),
+                trailingIcon = {
+                    Clock(
+                        contentDescription = "Start Time",
+                        onTimeSelected = { hours, minutes, amPm ->
+                            val formattedTime = String.format("%02d:%02d %s", hours, minutes, amPm.name)
+                            selectedStartTime = formattedTime
+                        }
+                    )
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
-            ) {
-                Text("Save")
-            }
+                    .weight(1f)
+                    .padding(5.dp)
+            )
+
+            OutlinedTextField(
+                value = selectedEndTime,
+                onValueChange = { /* Nothing for now */ },
+                label = { Text("End Time") },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Red,
+                    unfocusedIndicatorColor = Color.Gray
+                ),
+                trailingIcon = {
+                    Clock(
+                        contentDescription = "End Time",
+                        onTimeSelected = { hours, minutes, amPm ->
+                            val formattedTime = String.format("%02d:%02d %s", hours, minutes, amPm.name)
+                            selectedEndTime = formattedTime
+                        }
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(5.dp)
+            )
+        }
+
+        OutlinedTextField(
+            value = subjectDescription,
+            onValueChange = { subjectDescription = it },
+            label = { Text("Subject Description") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+        )
+        Button(
+            onClick = {
+                coroutineScope.launch {
+                    var subjectUiState = subjectAddViewModel.subjectUiState
+                    subjectUiState.subjectDetails = SubjectDetails(
+                        subjectCode = subjectCode,
+                        subjectName = subjectName,
+                        subjectDay = selectedDays,
+                        startTime = selectedStartTime,
+                        endTime = selectedEndTime,
+                        subjectDescription = subjectDescription
+                    )
+                    subjectAddViewModel.saveSubject()
+                    Log.i("subjectUiState", subjectUiState.subjectDetails.toString())
+                    navController.navigate(AuthRoute.LoginScreen.name)
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+        ) {
+            Text("Save")
         }
     }
 }

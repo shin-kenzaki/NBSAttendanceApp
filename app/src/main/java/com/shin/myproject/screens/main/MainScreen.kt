@@ -1,13 +1,25 @@
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CreateNewFolder
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -29,37 +41,65 @@ import com.shin.myproject.screens.main.mainScreen.subject.screen.SubjectScreen
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScreen.StudentAddScreen
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.SubjectAddScreen
 
+// Data class for top bar information
+data class TopBarInfo(val title: String, val actionIcon: ImageVector?, val actionRoute: String?)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    navController: NavHostController
-) {
+fun MainScreen(navController: NavHostController) {
     val navController: NavHostController = rememberNavController()
+
+    // State variable to hold the current top bar information
+    var currentTopBarInfo by remember {
+        mutableStateOf(TopBarInfo("", null, null))
+    }
+
     Scaffold(
+        topBar = {
+            Surface(
+                color = Color.LightGray
+            ) {
+                TopAppBar(
+                    title = {
+                        Text(text = currentTopBarInfo.title)
+                    },
+                    actions = {
+                        currentTopBarInfo.actionIcon?.let { icon ->
+                            IconButton(
+                                onClick = {
+                                    // Handle the click event for the action icon
+                                    // Navigate to the specified route when the action button is clicked
+                                    currentTopBarInfo.actionRoute?.let { route ->
+                                        navController.navigate(route)
+                                    }
+                                }
+                            ) {
+                                Icon(imageVector = icon, contentDescription = null)
+                            }
+                        }
+                    }
+                )
+            }
+        },
         bottomBar = { BottomNavBar(navController = navController) }
     ) {
-
         Box(modifier = Modifier.padding(it)) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
 
             val currentRoute = navBackStackEntry?.destination?.route ?: MainRoute.HomeScreen.name
 
-            // Extract the screen title based on the current route
-            val currentScreenTitle = when (currentRoute) {
-                MainRoute.HomeScreen.name -> "Home"
-                MainRoute.Dashboard.name -> "Dashboard"
-                MainRoute.Subjects.name -> "Subjects"
-                MainRoute.Notifications.name -> "Notifications"
-                MainRoute.Profile.name -> "Profile"
-                else -> "Unknown"
+            // Extract the top bar information based on the current route
+            currentTopBarInfo = when (currentRoute) {
+                MainRoute.HomeScreen.name -> TopBarInfo("Home", null, null)
+                MainRoute.Dashboard.name -> TopBarInfo("Dashboard", null, null)
+                MainRoute.Subjects.name -> TopBarInfo("Subjects", Icons.Default.CreateNewFolder, SubjectRoute.AddSubjectScreen.name)
+                MainRoute.Notifications.name -> TopBarInfo("Notifications", null, null)
+                MainRoute.Profile.name -> TopBarInfo("Profile", Icons.Default.Settings, null)
+
+                SubjectRoute.AddSubjectScreen.name -> TopBarInfo("Create New Subject", Icons.Default.Check, null)
+                else -> TopBarInfo("", null, null)
             }
 
-            // Set up your topAppBar with the dynamic title
-            TopAppBar(
-                title = {
-                    Text(text = currentScreenTitle)
-                }
-            )
             NavHost(
                 navController = navController,
                 startDestination = MainRoute.HomeScreen.name
