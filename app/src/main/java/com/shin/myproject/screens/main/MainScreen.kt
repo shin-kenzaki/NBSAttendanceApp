@@ -1,5 +1,6 @@
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -20,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -61,7 +63,9 @@ fun MainScreen(navController: NavHostController) {
             ) {
                 TopAppBar(
                     title = {
-                        Text(text = currentTopBarInfo.title)
+                        Text(
+                            text = currentTopBarInfo.title
+                        )
                     },
                     actions = {
                         currentTopBarInfo.actionIcon?.let { icon ->
@@ -94,9 +98,12 @@ fun MainScreen(navController: NavHostController) {
                 MainRoute.Dashboard.name -> TopBarInfo("Dashboard", null, null)
                 MainRoute.Subjects.name -> TopBarInfo("Subjects", Icons.Default.CreateNewFolder, SubjectRoute.AddSubjectScreen.name)
                 MainRoute.Notifications.name -> TopBarInfo("Notifications", null, null)
-                MainRoute.Profile.name -> TopBarInfo("Profile", Icons.Default.Settings, null)
+                MainRoute.Profile.name -> TopBarInfo("Profile", Icons.Default.Settings, ProfileRoute.ProfileSettings.name)
 
-                SubjectRoute.AddSubjectScreen.name -> TopBarInfo("Create New Subject", Icons.Default.Check, null)
+                SubjectRoute.AddSubjectScreen.name -> TopBarInfo("Create New Subject", null, null)
+
+                ProfileRoute.ProfileSettings.name -> TopBarInfo("Account Settings", null, null)
+
                 else -> TopBarInfo("", null, null)
             }
 
