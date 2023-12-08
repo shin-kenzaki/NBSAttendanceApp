@@ -25,7 +25,8 @@ object AppViewModelProvider {
         // Initializer for LoginViewModel
         initializer {
             LoginViewModel(
-                nbsAttendanceApplication().container.userRepository
+                nbsAttendanceApplication().container.userRepository,
+                nbsAttendanceApplication().container.currentUserRepository
             )
         }
 

@@ -4,15 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.shin.myproject.data.authModel.User
+import com.shin.myproject.user.repository.currentUser.CurrentUserRepository
 import com.shin.myproject.user.repository.user.UserRepository
-import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the login screen.
  */
-class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
+class LoginViewModel(private val userRepository: UserRepository, private val currentUserRepository: CurrentUserRepository) : ViewModel() {
 
     // Mutable state for UI interaction
     var isUsernameValid by mutableStateOf(false)
@@ -56,8 +55,12 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
                 showError = false
                 currentUser = user ?: userByEmail // Set the current user
 
-                // Store the current user information
-                currentUser?.let { CurrentUserHolder.setCurrentUser(it) }
+                // Retrieve additional user information from userRepository
+                val fullUser = userRepository.getUserById(currentUser?.userId ?: -1)
+                fullUser?.let {
+                    // Store the current user information into current user repository
+                    currentUserRepository.insertCurrentUser(it)
+                }
 
                 return true
             }
@@ -68,17 +71,6 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     }
 }
 
-data class CurrentUser(
-    val userId: Int,
-    val username: String,
-    val password: String,
-    val firstname : String,
-    val lastname : String,
-    val phone : String,
-    val email : String,
-    val school : String,
-    val department : String
-)
 
 object CurrentUserHolder {
     var currentUser: User? = null

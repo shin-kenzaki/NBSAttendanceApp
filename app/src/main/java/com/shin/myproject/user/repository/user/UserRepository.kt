@@ -1,6 +1,5 @@
 package com.shin.myproject.user.repository.user
 
-import com.shin.myproject.user.dao.UserDao
 import com.shin.myproject.data.authModel.User
 import kotlinx.coroutines.flow.Flow
 
@@ -25,6 +24,12 @@ interface UserRepository {
      * Retrieve a user from the given data source that matches with the [email].
      */
     suspend fun getUserByEmail(email: String): User?
+
+    /**
+     * Retrieve a user from the given data source that matches with the [userId].
+     */
+    suspend fun getUserById(userId: Int): User?
+
 
     /**
      * Insert user in the data source
