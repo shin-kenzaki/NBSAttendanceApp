@@ -4,4 +4,7 @@ enum class AuthRoute {
     LoginScreen,
     RegistrationScreen,
     OTPScreen,
+
+    RegisterSplash,
+    LoginSplash
 }

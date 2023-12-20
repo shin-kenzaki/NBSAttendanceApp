@@ -5,9 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.shin.myproject.ViewModel.user.UserDetails
-import com.shin.myproject.ViewModel.user.UserUiState
-import com.shin.myproject.ViewModel.user.toUser
 import com.shin.myproject.data.authModel.User
 import com.shin.myproject.data.mainscreenModel.subjectModel.DayListItem
 import com.shin.myproject.data.mainscreenModel.subjectModel.Subject

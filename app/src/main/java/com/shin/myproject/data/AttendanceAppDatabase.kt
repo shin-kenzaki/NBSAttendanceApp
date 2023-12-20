@@ -5,12 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.shin.myproject.data.authModel.CurrentUser
 import com.shin.myproject.data.authModel.User
 import com.shin.myproject.data.mainscreenModel.studentModel.Student
 import com.shin.myproject.data.mainscreenModel.subjectModel.DayListItemConverter
 import com.shin.myproject.data.mainscreenModel.subjectModel.Subject
-import com.shin.myproject.user.dao.CurrentUserDao
 import com.shin.myproject.user.dao.StudentDao
 import com.shin.myproject.user.dao.SubjectDao
 import com.shin.myproject.user.dao.UserDao
@@ -18,13 +16,12 @@ import com.shin.myproject.user.dao.UserDao
 /**
  * Database class with a singleton Instance object.
  */
-@Database(entities = [User::class, Subject::class, Student::class, CurrentUser::class], version = 3, exportSchema = false)
+@Database(entities = [User::class, Subject::class, Student::class], version = 3, exportSchema = false)
 @TypeConverters(DayListItemConverter::class)
 abstract class AttendanceAppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun subjectDao(): SubjectDao
     abstract fun studentDao(): StudentDao
-    abstract fun currentUserDao(): CurrentUserDao
 
 
     companion object {

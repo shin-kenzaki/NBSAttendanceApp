@@ -11,10 +11,7 @@ data class User(
     val userId: Int,
     val firstname: String,
     val lastname: String,
-    val username: String,
-    val password: String,
     val email: String,
-    val phone: String,
-    val school: String,
-    val department: String
+    val password: String,
+    val phone: String
 )

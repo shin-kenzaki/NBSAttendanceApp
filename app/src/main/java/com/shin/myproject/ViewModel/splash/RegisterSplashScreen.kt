@@ -1,6 +1,5 @@
-package com.shin.myproject.screens
+package com.shin.myproject.ViewModel.splash
 
-import NBSApp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,17 +21,18 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.shin.myproject.R
 import com.shin.myproject.ViewModel.ScreenViewModel
+import com.shin.myproject.navigation.routes.AuthRoute
 
 @Composable
-fun SplashScreen(
+fun RegisterSplashScreen(
     navController: NavHostController,
     screenViewModel: ScreenViewModel,
 ) {
-    val state = screenViewModel.splashLoaded.collectAsState()
-    screenViewModel.runSplashScreen()
+    val state = screenViewModel.isRegistered.collectAsState()
+    screenViewModel.registerUser()
 
     if (state.value) {
-        NBSApp()
+        navController.navigate(AuthRoute.LoginScreen.name)
     } else {
         Column(
             verticalArrangement = Arrangement.Center,

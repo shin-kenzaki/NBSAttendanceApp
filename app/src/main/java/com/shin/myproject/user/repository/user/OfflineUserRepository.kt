@@ -10,16 +10,16 @@ class OfflineUserRepository(private val userDao: UserDao) : UserRepository {
 
     override fun getUserStream(id: Int): Flow<User?> = userDao.getUser(id)
 
-    override suspend fun getUserByUsername(username: String): User? {
-        return userDao.getUserByUsername(username)
-    }
-
-    override suspend fun getUserByEmail(email: String): User? {
-        return userDao.getUserByEmail(email)
-    }
-
     override suspend fun getUserById(userId: Int): User? {
-        return userDao.getUser(userId)?.firstOrNull()
+        return userDao.getUser(userId).firstOrNull()
+    }
+
+    override fun isPhoneExist(phone: String): Flow<Boolean> {
+        return userDao.isPhoneExist(phone)
+    }
+
+    override fun isEmailExist(email: String): Flow<Boolean> {
+        return userDao.isEmailExist(email)
     }
 
     override suspend fun insertUser(user: User) = userDao.insert(user)
@@ -27,4 +27,5 @@ class OfflineUserRepository(private val userDao: UserDao) : UserRepository {
     override suspend fun deleteUser(user: User) = userDao.delete(user)
 
     override suspend fun updateUser(user: User) = userDao.update(user)
+
 }

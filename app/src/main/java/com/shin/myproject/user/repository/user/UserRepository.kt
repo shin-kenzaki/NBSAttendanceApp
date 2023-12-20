@@ -5,44 +5,42 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     /**
-     * Retrieve all the users from the the given data source.
+     * Retrieve all the users from the given data source.
      */
     fun getAllUsersStream(): Flow<List<User>>
 
     /**
-     * Retrieve an user from the given data source that matches with the [id].
+     * Retrieve a user from the given data source that matches with the [id].
      */
     fun getUserStream(id: Int): Flow<User?>
-
-    /**
-     * Retrieve an user from the given data source that matches with the [username].
-     */
-
-    suspend fun getUserByUsername(username: String): User?
-
-    /**
-     * Retrieve a user from the given data source that matches with the [email].
-     */
-    suspend fun getUserByEmail(email: String): User?
 
     /**
      * Retrieve a user from the given data source that matches with the [userId].
      */
     suspend fun getUserById(userId: Int): User?
 
+    /**
+     * Check if a user with the given phone number exists.
+     */
+    fun isPhoneExist(phone: String): Flow<Boolean>
 
     /**
-     * Insert user in the data source
+     * Check if a user with the given email exists.
+     */
+    fun isEmailExist(email: String): Flow<Boolean>
+
+    /**
+     * Insert user into the data source.
      */
     suspend fun insertUser(user: User)
 
     /**
-     * Delete user from the data source
+     * Delete user from the data source.
      */
     suspend fun deleteUser(user: User)
 
     /**
-     * Update user in the data source
+     * Update user in the data source.
      */
     suspend fun updateUser(user: User)
 }

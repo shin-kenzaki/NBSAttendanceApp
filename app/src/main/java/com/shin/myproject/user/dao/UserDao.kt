@@ -21,14 +21,12 @@ interface UserDao {
     @Query("SELECT * from Users WHERE user_id = :id")
     fun getUser(id: Int): Flow<User>
 
-    @Query("SELECT * FROM Users WHERE username = :username")
-    suspend fun getUserByUsername(username: String): User?
+    @Query("SELECT * from Users WHERE email = :email")
+    fun getUserByEmail(email: String): Flow<User?>
 
-    @Query("SELECT * FROM Users WHERE username = :email")
-    suspend fun getUserByEmail(email: String): User?
+    @Query("SELECT * from Users WHERE phone = :phone")
+    fun getUserByPhone(phone: String): Flow<User?>
 
-    // Specify the conflict strategy as REPLACE, when the user tries to add an
-    // existing User into the database Room REPLACES the conflict.
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: User)
 
@@ -37,4 +35,10 @@ interface UserDao {
 
     @Delete
     suspend fun delete(user: User)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM Users WHERE phone = :phone)")
+    fun isPhoneExist(phone: String): Flow<Boolean>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM Users WHERE email = :email)")
+    fun isEmailExist(email: String): Flow<Boolean>
 }

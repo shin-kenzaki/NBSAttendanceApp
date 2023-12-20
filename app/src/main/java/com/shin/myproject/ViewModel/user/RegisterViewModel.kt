@@ -1,116 +1,85 @@
 package com.shin.myproject.ViewModel.user
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.shin.myproject.data.authModel.User
 import com.shin.myproject.user.repository.user.UserRepository
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
-/**
- * ViewModel to validate and insert users in the Room database.
- */
-class RegisterViewModel(private val usersRepository: UserRepository) : ViewModel() {
+class RegisterViewModel(
+    private val userRepository: UserRepository
+) : ViewModel() {
 
-    /**
-     * Holds current user ui state
-     */
-    var userUiState by mutableStateOf(UserUiState())
-        private set
-
-    /**
-     * Updates the [userUiState] with the value provided in the argument. This method also triggers
-     * a validation for input values.
-     */
-    fun updateUiState(userDetails: UserDetails) {
-        userUiState =
-            UserUiState(userDetails = userDetails, isEntryValid = validateInput(userDetails))
+    fun isPhoneExist(phone: String): Flow<Boolean> {
+        return userRepository.isPhoneExist(phone)
     }
 
-    /**
-     * Inserts an [User] in the Room database
-     */
-    suspend fun saveUser() {
-        Log.i("validateInput()" ,validateInput().toString())
-        if (validateInput()) {
-            usersRepository.insertUser(userUiState.userDetails.toUser())
-        }
+    fun isEmailExist(email: String): Flow<Boolean> {
+        return userRepository.isEmailExist(email)
     }
 
-    private fun validateInput(uiState: UserDetails = userUiState.userDetails): Boolean {
-        return with(uiState) {
-            username.length >= 8 &&
-                    password.length >= 8 &&
-                    password.any { it.isDigit() } &&
-                    firstname.isNotBlank() &&
-                    lastname.isNotBlank() &&
-                    email.isNotBlank() &&
-                    school.isNotBlank() &&
-                    school.isNotBlank() &&
-                    department.isNotBlank()
+    suspend fun validateAndRegisterUser(registrationInput: RegistrationInput): RegistrationResult {
+        // Validate the input
+        if (registrationInput.firstname.isBlank() ||
+            registrationInput.lastname.isBlank() ||
+            registrationInput.phone.isBlank() ||
+            registrationInput.email.isBlank() ||
+            registrationInput.password.isBlank()
+        ) {
+            return RegistrationResult.Failure("All fields must be filled.")
         }
+
+        // Create RegistrationData with validated input
+        val registrationData = RegistrationData(
+            firstname = registrationInput.firstname,
+            lastname = registrationInput.lastname,
+            phone = registrationInput.phone,
+            email = registrationInput.email,
+            password = registrationInput.password
+        )
+
+        // Check if email and phone already exist
+        val isEmailExist = isEmailExist(registrationData.email).first()
+        val isPhoneExist = isPhoneExist(registrationData.phone).first()
+
+        if (isEmailExist && isPhoneExist) {
+            return RegistrationResult.Failure("Email and phone already exist.")
+        } else if (isEmailExist) {
+            return RegistrationResult.Failure("Email already exists.")
+        } else if (isPhoneExist) {
+            return RegistrationResult.Failure("Phone already exists.")
+        }
+
+        // Email and phone do not exist, proceed with registration
+        userRepository.insertUser(User(
+            userId = 0, // Auto-generated ID
+            firstname = registrationData.firstname,
+            lastname = registrationData.lastname,
+            email = registrationData.email,
+            password = registrationData.password,
+            phone = registrationData.phone
+        ))
+
+        return RegistrationResult.Success("Registration successful.")
     }
 }
-
-/**
- * Represents Ui State for an User.
- */
-data class UserUiState(
-    var userDetails: UserDetails = UserDetails(),
-    val isEntryValid: Boolean = false
+data class RegistrationInput(
+    var firstname: String = "",
+    var lastname: String = "",
+    var phone: String = "",
+    var email: String = "",
+    var password: String = ""
 )
 
-data class UserDetails(
-    val id: Int = 0,
-    val username: String = "",
-    val password: String = "",
-    val firstname: String ="",
-    val lastname: String = "",
-    val phone: String = "",
-    val email: String = "",
-    val school: String ="",
-    val department: String ="",
+data class RegistrationData(
+    val firstname: String,
+    val lastname: String,
+    val phone: String,
+    val email: String,
+    val password: String
 )
 
-/**
- * Extension function to convert [UserUiState] to [User]. If the value of [UserDetails.price] is
- * not a valid [Double], then the price will be set to 0.0. Similarly if the value of
- * [UserUiState] is not a valid [Int], then the quantity will be set to 0
- */
-fun UserDetails.toUser(): User = User(
-    userId = id,
-    username = username,
-    password = password,
-    firstname = firstname,
-    lastname = lastname,
-    phone = phone,
-    email = email,
-    school = school,
-    department = department
-)
-
-/**
- * Extension function to convert [Item] to [ItemUiState]
- */
-fun User.toUserUiState(isEntryValid: Boolean = false): UserUiState = UserUiState(
-    userDetails = this.toUserDetails(),
-    isEntryValid = isEntryValid
-)
-
-/**
- * Extension function to convert [Item] to [ItemDetails]
- */
-fun User.toUserDetails(): UserDetails = UserDetails(
-    id = userId,
-    username = username,
-    password = password,
-    firstname = firstname,
-    lastname = lastname,
-    phone = phone,
-    email = email,
-    school = school,
-    department = department
-)
+sealed class RegistrationResult {
+    data class Success(val message: String = "") : RegistrationResult()
+    data class Failure(val message: String) : RegistrationResult()
+}

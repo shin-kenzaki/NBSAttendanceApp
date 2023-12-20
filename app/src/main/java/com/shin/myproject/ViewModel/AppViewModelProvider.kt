@@ -1,13 +1,13 @@
 package com.shin.myproject.ViewModel
 
-import com.shin.myproject.NBSAttendanceApp
-import com.shin.myproject.ViewModel.user.RegisterViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.shin.myproject.NBSAttendanceApp
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
 import com.shin.myproject.ViewModel.user.LoginViewModel
+import com.shin.myproject.ViewModel.user.RegisterViewModel
 
 /**
  * Provides Factory to create instance of ViewModel for the entire Inventory app
@@ -18,15 +18,14 @@ object AppViewModelProvider {
         // Initializer for RegistrationViewModel
         initializer {
             RegisterViewModel(
-                nbsAttendanceApplication().container.userRepository
+                  nbsAttendanceApplication().container.userRepository
             )
         }
 
         // Initializer for LoginViewModel
         initializer {
             LoginViewModel(
-                nbsAttendanceApplication().container.userRepository,
-                nbsAttendanceApplication().container.currentUserRepository
+                nbsAttendanceApplication().container.userRepository
             )
         }
 
@@ -35,6 +34,11 @@ object AppViewModelProvider {
             SubjectAddViewModel (
                 nbsAttendanceApplication().container.subjectRepository
             )
+        }
+
+        // ScreenViewModel
+        initializer {
+            ScreenViewModel()
         }
     }
 }

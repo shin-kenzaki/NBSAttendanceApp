@@ -52,7 +52,6 @@ import com.shin.myproject.R
 import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.user.LoginViewModel
 import com.shin.myproject.navigation.routes.AuthRoute
-import com.shin.myproject.navigation.routes.Routes
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -201,11 +200,7 @@ fun LoginScreen(
                 Button(
                     onClick = {
                         coroutineScope.launch {
-                            val loginSuccess = loginViewModel.loginUser(username, password)
-                            if (loginSuccess) {
-                                // Navigate to the main screen
-                                navController.navigate(route = Routes.MAIN.name)
-                            }
+
                         }
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),

@@ -1,8 +1,6 @@
 package com.shin.myproject.data
 
 import android.content.Context
-import com.shin.myproject.user.repository.currentUser.CurrentUserOfflineRepository
-import com.shin.myproject.user.repository.currentUser.CurrentUserRepository
 import com.shin.myproject.user.repository.student.OfflineStudentRepository
 import com.shin.myproject.user.repository.student.StudentRepository
 import com.shin.myproject.user.repository.subject.OfflineSubjectRepository
@@ -14,7 +12,6 @@ interface AppContainer {
     val userRepository: UserRepository
     val subjectRepository: SubjectRepository
     val studentRepository: StudentRepository
-    val currentUserRepository: CurrentUserRepository
 }
 
 /**
@@ -38,12 +35,5 @@ class AppDataContainer(private val context: Context) : AppContainer {
      */
     override val studentRepository: StudentRepository by lazy {
         OfflineStudentRepository(AttendanceAppDatabase.getDatabase(context).studentDao())
-    }
-
-    override val currentUserRepository: CurrentUserRepository by lazy {
-        CurrentUserOfflineRepository(
-            AttendanceAppDatabase.getDatabase(context).currentUserDao(),
-            userRepository
-        )
     }
 }
