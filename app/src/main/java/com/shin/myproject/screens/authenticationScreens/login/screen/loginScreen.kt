@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
@@ -72,7 +73,7 @@ fun LoginScreen(
             .padding(25.dp)
             .wrapContentSize(Alignment.Center)
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
@@ -81,170 +82,181 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                modifier = Modifier.size(300.dp),
-                painter = painterResource(id = R.drawable.nbslogo),
-                contentDescription = "NBS LOGO"
-            )
-            Text(
-                text = "Welcome Back",
-                style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Bold),
-                modifier = Modifier
-                    .padding(top = 16.dp)
-            )
-            Text(
-                text = "Sign in to access your account",
-                style = TextStyle(fontSize = 17.sp),
-                modifier = Modifier
-                    .padding(top = 8.dp)
-            )
-
-            OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = {
-                    Text(
-                        text = "Username/Email",
-                        color = Color.Red
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Red,
-                    unfocusedIndicatorColor = Color.Gray
-                ),
-                singleLine = true,
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.MailOutline,
-                        contentDescription = "Email",
-                        tint = Color.LightGray
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = {
-                    Text(
-                        text = "Password",
-                        color = Color.Red
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Red,
-                    unfocusedIndicatorColor = Color.Gray
-                ),
-                trailingIcon = {
-                    PasswordToggleIcon(passwordVisible) {
-                        passwordVisible = !passwordVisible
-                    }
-                },
-                singleLine = true,
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 25.dp, vertical = 3.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                val checkedState = remember { mutableStateOf(false) }
-                Row(
+            item {
+                Image(
+                    modifier = Modifier.size(200.dp),
+                    painter = painterResource(id = R.drawable.nbslogo),
+                    contentDescription = "NBS LOGO"
+                )
+                Text(
+                    text = "Welcome Back",
+                    style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Bold),
                     modifier = Modifier
-                        .padding(0.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Checkbox(
-                        checked = checkedState.value,
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = Color.Red,
-                            uncheckedColor = Color.Black,
-                            checkmarkColor = Color.White
-                        ),
-                        onCheckedChange = { checkedState.value = it }
-                    )
-
-                    Text(
-                        text = "Remember Me",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                }
-                ClickableText(
-                    text = AnnotatedString("Forgot Password?"),
-                    onClick = { navController.navigate(AuthRoute.OTPScreen.name) },
-                    style = TextStyle(
-                        color = Color.Red,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        textDecoration = TextDecoration.Underline
-                    ),
-                    modifier = Modifier.padding(end = 4.dp)
+                        .padding(top = 16.dp)
+                )
+                Text(
+                    text = "Sign in to access your account",
+                    style = TextStyle(fontSize = 17.sp),
+                    modifier = Modifier
+                        .padding(top = 8.dp)
                 )
             }
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(
-                    onClick = {
-                        coroutineScope.launch {
+            item {
+                OutlinedTextField(
+                    value = username,
+                    onValueChange = { username = it },
+                    label = {
+                        Text(
+                            text = "Username/Email",
+                            color = Color.Red
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Red,
+                        unfocusedIndicatorColor = Color.Gray
+                    ),
+                    singleLine = true,
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.MailOutline,
+                            contentDescription = "Email",
+                            tint = Color.LightGray
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
 
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = {
+                        Text(
+                            text = "Password",
+                            color = Color.Red
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Red,
+                        unfocusedIndicatorColor = Color.Gray
+                    ),
+                    trailingIcon = {
+                        PasswordToggleIcon(passwordVisible) {
+                            passwordVisible = !passwordVisible
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                    shape = RoundedCornerShape(8.dp),
+                    singleLine = true,
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     modifier = Modifier
-                        .width(450.dp)
-                        .padding(vertical = 5.dp, horizontal = 25.dp)
-                ) {
-                    Row(
-                        modifier = Modifier,
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(text = "Log In", color = Color.White, fontSize = 14.sp)
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = "Log In Button",
-                            tint = Color.White,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                }
+                        .fillMaxWidth()
+                )
+            }
 
+            item {
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 25.dp, vertical = 3.dp)
-                        .width(300.dp),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "New member?",
-                        style = TextStyle(fontSize = 17.sp),
+                    val checkedState = remember { mutableStateOf(false) }
+                    Row(
                         modifier = Modifier
-                    )
+                            .padding(0.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Checkbox(
+                            checked = checkedState.value,
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = Color.Red,
+                                uncheckedColor = Color.Black,
+                                checkmarkColor = Color.White
+                            ),
+                            onCheckedChange = { checkedState.value = it }
+                        )
+
+                        Text(
+                            text = "Remember Me",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Normal,
+                            modifier = Modifier.padding(start = 4.dp)
+                        )
+                    }
                     ClickableText(
-                        text = AnnotatedString("Register Now"),
-                        onClick = { navController.navigate(AuthRoute.RegistrationScreen.name) },
+                        text = AnnotatedString("Forgot Password?"),
+                        onClick = { navController.navigate(AuthRoute.OTPScreen.name) },
                         style = TextStyle(
                             color = Color.Red,
-                            fontSize = 17.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            textDecoration = TextDecoration.Underline
+                        ),
+                        modifier = Modifier.padding(end = 4.dp)
                     )
+                }
+            }
+
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Button(
+                        onClick = {
+                            coroutineScope.launch {
+
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier
+                            .width(450.dp)
+                            .padding(vertical = 5.dp, horizontal = 25.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier,
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "Log In", color = Color.White, fontSize = 14.sp)
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = "Log In Button",
+                                tint = Color.White,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = 25.dp, vertical = 3.dp)
+                            .width(300.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "New member?",
+                            style = TextStyle(fontSize = 17.sp),
+                            modifier = Modifier
+                        )
+                        ClickableText(
+                            text = AnnotatedString("Register Now"),
+                            onClick = { navController.navigate(AuthRoute.RegistrationScreen.name) },
+                            style = TextStyle(
+                                color = Color.Red,
+                                fontSize = 17.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -261,4 +273,3 @@ fun PasswordToggleIcon(passwordVisible: Boolean, onClick: () -> Unit) {
         )
     }
 }
-

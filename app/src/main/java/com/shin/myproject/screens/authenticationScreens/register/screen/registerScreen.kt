@@ -112,14 +112,13 @@ fun RegistrationScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .fillMaxWidth()
-                .padding(horizontal = 25.dp),
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
                 Image(
-                    modifier = Modifier.size(300.dp),
+                    modifier = Modifier.size(200.dp),
                     painter = painterResource(id = com.shin.myproject.R.drawable.nbslogo),
                     contentDescription = "NBS LOGO"
                 )
