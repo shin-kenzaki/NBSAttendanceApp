@@ -51,8 +51,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.shin.myproject.R
 import com.shin.myproject.ViewModel.AppViewModelProvider
+import com.shin.myproject.ViewModel.user.LoginInput
+import com.shin.myproject.ViewModel.user.LoginResult
 import com.shin.myproject.ViewModel.user.LoginViewModel
 import com.shin.myproject.navigation.routes.AuthRoute
+import com.shin.myproject.navigation.routes.Routes
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,10 +64,11 @@ fun LoginScreen(
     navController: NavHostController,
     loginViewModel: LoginViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var password by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
+    var loginFailedText by remember { mutableStateOf("") }
 
     Scaffold(
         modifier = Modifier
@@ -104,8 +108,8 @@ fun LoginScreen(
 
             item {
                 OutlinedTextField(
-                    value = username,
-                    onValueChange = { username = it },
+                    value = email,
+                    onValueChange = { email = it },
                     label = {
                         Text(
                             text = "Username/Email",
@@ -211,7 +215,26 @@ fun LoginScreen(
                     Button(
                         onClick = {
                             coroutineScope.launch {
+                                // Validate and login
+                                val loginResult = loginViewModel.validateLoginInput(LoginInput(email, password))
 
+                                when (loginResult) {
+                                    is LoginResult.Success -> {
+                                        // Handle successful login
+                                        val loggedInUser = loginResult.message
+
+                                        // Now you have access to the logged-in user information
+                                        println("Logged-in user: $loggedInUser")
+
+                                        // Navigate to the main screen or perform any other action
+                                        navController.navigate(Routes.MAIN.name)
+                                    }
+                                    is LoginResult.Failure -> {
+                                        // Handle login failure if needed
+                                        // Update the login failed text
+                                        loginFailedText = loginResult.errorMessage
+                                    }
+                                }
                             }
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
@@ -234,6 +257,15 @@ fun LoginScreen(
                             )
                         }
                     }
+
+                    // Display login failed text
+                    if (loginFailedText.isNotEmpty()) {
+                        Text(
+                            text = loginFailedText,
+                            color = Color.Red,
+                        )
+                    }
+
 
                     Row(
                         modifier = Modifier

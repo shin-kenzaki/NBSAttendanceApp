@@ -20,6 +20,11 @@ interface UserRepository {
     suspend fun getUserById(userId: Int): User?
 
     /**
+     * Retrieve a user from the given data source that matches with the [email].
+     */
+    suspend fun getUserByEmail(email: String): User?
+
+    /**
      * Check if a user with the given phone number exists.
      */
     fun isPhoneExist(phone: String): Flow<Boolean>

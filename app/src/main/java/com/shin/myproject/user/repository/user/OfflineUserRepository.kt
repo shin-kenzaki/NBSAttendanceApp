@@ -14,6 +14,10 @@ class OfflineUserRepository(private val userDao: UserDao) : UserRepository {
         return userDao.getUser(userId).firstOrNull()
     }
 
+    override suspend fun getUserByEmail(email: String): User? {
+        return userDao.getEmail(email).firstOrNull()
+    }
+
     override fun isPhoneExist(phone: String): Flow<Boolean> {
         return userDao.isPhoneExist(phone)
     }
