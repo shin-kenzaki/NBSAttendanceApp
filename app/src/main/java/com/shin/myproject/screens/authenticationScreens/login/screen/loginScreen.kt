@@ -55,7 +55,6 @@ import com.shin.myproject.ViewModel.user.LoginInput
 import com.shin.myproject.ViewModel.user.LoginResult
 import com.shin.myproject.ViewModel.user.LoginViewModel
 import com.shin.myproject.navigation.routes.AuthRoute
-import com.shin.myproject.navigation.routes.Routes
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -227,7 +226,7 @@ fun LoginScreen(
                                         println("Logged-in user: $loggedInUser")
 
                                         // Navigate to the main screen or perform any other action
-                                        navController.navigate(Routes.MAIN.name)
+                                        navController.navigate(AuthRoute.LoginSplash.name)
                                     }
                                     is LoginResult.Failure -> {
                                         // Handle login failure if needed

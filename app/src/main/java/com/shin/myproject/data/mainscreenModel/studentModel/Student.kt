@@ -2,9 +2,15 @@ package com.shin.myproject.data.mainscreenModel.studentModel
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.shin.myproject.data.mainscreenModel.subjectModel.Subject
 
-@Entity(tableName = "Students")
+@Entity(tableName = "Students",
+    foreignKeys = [ForeignKey(entity = Subject::class,
+        parentColumns = ["subject_id"],
+        childColumns = ["subject_id"],
+        onDelete = ForeignKey.CASCADE)])
 data class Student(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "student_id")

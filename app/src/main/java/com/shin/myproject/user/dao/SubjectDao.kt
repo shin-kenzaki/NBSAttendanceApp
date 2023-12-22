@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.shin.myproject.data.mainscreenModel.subjectModel.Subject
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SubjectDao {
@@ -19,4 +18,7 @@ interface SubjectDao {
 
     @Delete
     suspend fun delete(subject: Subject)
+
+//    @Query("DELETE FROM Subjects WHERE user_id = :userId")
+//    fun deleteSubjectsByUserId(userId: Int)
 }

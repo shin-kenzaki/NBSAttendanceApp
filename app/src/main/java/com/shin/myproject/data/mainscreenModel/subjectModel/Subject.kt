@@ -2,14 +2,19 @@ package com.shin.myproject.data.mainscreenModel.subjectModel
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import androidx.room.TypeConverters
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
+import com.shin.myproject.data.authModel.User
 
 
-@Entity(tableName = "Subjects")
+@Entity(tableName = "Subjects",
+    foreignKeys = [ForeignKey(entity = User::class,
+        parentColumns = ["user_id"],
+        childColumns = ["user_id"],
+        onDelete = ForeignKey.CASCADE)])
 data class Subject(
     @ColumnInfo(name = "user_id")
     val userId: Int,

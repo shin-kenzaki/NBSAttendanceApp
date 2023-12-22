@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.ScreenViewModel
+import com.shin.myproject.ViewModel.splash.LoginSplashScreen
 import com.shin.myproject.ViewModel.splash.RegisterSplashScreen
 import com.shin.myproject.navigation.routes.AuthRoute
 import com.shin.myproject.navigation.routes.Routes
@@ -43,6 +44,9 @@ fun NBSApp() {
 
             composable(route = AuthRoute.RegisterSplash.name) {
                 RegisterSplashScreen(navController, screenViewModel)
+            }
+            composable(route = AuthRoute.LoginSplash.name) {
+                LoginSplashScreen(navController, screenViewModel)
             }
         }
     }
