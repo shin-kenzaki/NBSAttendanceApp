@@ -1,6 +1,8 @@
 package com.shin.myproject.ViewModel.user
 
 import androidx.lifecycle.ViewModel
+import com.shin.myproject.data.authModel.LoggedInUser
+import com.shin.myproject.data.authModel.SharedViewModel
 import com.shin.myproject.user.repository.user.UserRepository
 
 
@@ -13,21 +15,11 @@ data class LoginInput(
 )
 
 /**
- * Data class to store logged-in user information.
- */
-data class LoggedInUser(
-    val userId: Int,
-    val firstname: String,
-    val lastname: String,
-    val email: String,
-    val phone: String
-)
-
-/**
  * ViewModel for the login screen.
  */
 class LoginViewModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val sharedViewModel: SharedViewModel
 ) : ViewModel() {
     suspend fun validateLoginInput(loginInput: LoginInput): LoginResult {
         // Validate the input
@@ -50,6 +42,9 @@ class LoginViewModel(
             email = user.email,
             phone = user.phone
         )
+
+        // Set the loggedInUser in the sharedViewModel
+        sharedViewModel.loggedInUser = loggedInUser
 
         return LoginResult.Success(loggedInUser)
     }

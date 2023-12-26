@@ -4,9 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import com.google.common.reflect.TypeToken
-import com.google.gson.Gson
 import com.shin.myproject.data.authModel.User
 
 
@@ -26,7 +23,7 @@ data class Subject(
     @ColumnInfo(name = "subject_name")
     val subjectName: String,
     @ColumnInfo(name = "subject_day")
-    val subjectDay: List<DayListItem>,
+    val subjectDay: String,
     @ColumnInfo(name = "start_time")
     val startTime: String,
     @ColumnInfo(name = "end_time")
@@ -34,17 +31,3 @@ data class Subject(
     @ColumnInfo(name = "subject_description")
     val subjectDescription: String
 )
-
-
-class DayListItemConverter {
-    @TypeConverter
-    fun fromString(value: String): List<DayListItem> {
-        val listType = object : TypeToken<List<DayListItem>>() {}.type
-        return Gson().fromJson(value, listType)
-    }
-
-    @TypeConverter
-    fun toString(value: List<DayListItem>): String {
-        return Gson().toJson(value)
-    }
-}
