@@ -8,7 +8,6 @@ import com.shin.myproject.NBSAttendanceApp
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
 import com.shin.myproject.ViewModel.user.LoginViewModel
 import com.shin.myproject.ViewModel.user.RegisterViewModel
-import com.shin.myproject.data.authModel.SharedViewModel
 
 /**
  * Provides Factory to create instance of ViewModel for the entire Inventory app
@@ -27,7 +26,6 @@ object AppViewModelProvider {
         initializer {
             LoginViewModel(
                 nbsAttendanceApplication().container.userRepository,
-                SharedViewModel()
             )
         }
 
@@ -35,7 +33,6 @@ object AppViewModelProvider {
         initializer {
             SubjectAddViewModel (
                 nbsAttendanceApplication().container.subjectRepository,
-                SharedViewModel()
             )
         }
 

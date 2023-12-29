@@ -18,6 +18,9 @@ class ScreenViewModel : ViewModel() {
     private val _isRegistered = MutableStateFlow(false)
     val isRegistered = _isRegistered.asStateFlow()
 
+    private val _subjectRegistered = MutableStateFlow(false)
+    val subjectRegistered = _subjectRegistered.asStateFlow()
+
     fun runSplashScreen() {
         viewModelScope.launch {
             // show splash screen for 2 seconds
@@ -40,5 +43,17 @@ class ScreenViewModel : ViewModel() {
             delay(2000)
             _isRegistered.value = true
         }
+    }
+
+    fun registerSubject() {
+        viewModelScope.launch {
+            // set status to loggedIn after 2 seconds
+            delay(2000)
+            _isRegistered.value = true
+        }
+    }
+
+    fun resetSubjectRegistered() {
+        _subjectRegistered.value = false
     }
 }

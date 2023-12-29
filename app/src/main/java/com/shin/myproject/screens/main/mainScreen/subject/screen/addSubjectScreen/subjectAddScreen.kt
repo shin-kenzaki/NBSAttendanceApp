@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Check
@@ -36,7 +38,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.shin.myproject.ViewModel.AppViewModelProvider
+import com.shin.myproject.ViewModel.subject.SubjectAddInputs
+import com.shin.myproject.ViewModel.subject.SubjectAddResult
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
+import com.shin.myproject.navigation.routes.MainRoute
+import com.shin.myproject.navigation.routes.SubjectRoute
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.Clock
 import kotlinx.coroutines.launch
 
@@ -53,56 +59,55 @@ fun SubjectAddScreen(
     var selectedStartTime by remember { mutableStateOf("00:00 AM") }
     var selectedEndTime by remember { mutableStateOf("00:00 AM") }
     var subjectDay by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             Row(
-                modifier = Modifier,
-                horizontalArrangement = Arrangement.SpaceEvenly
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
-                OutlinedTextField(
-                    value = subjectCode,
-                    onValueChange = { subjectCode = it },
-                    label = { Text("Subject Code") },
+                Column(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(5.dp),
-                    singleLine = true
-                )
+                        .weight(2f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    OutlinedTextField(
+                        value = subjectCode,
+                        onValueChange = { subjectCode = it },
+                        label = { Text("Subject Code") },
+                        singleLine = true
+                    )
 
-                OutlinedTextField(
-                    value = subjectName,
-                    onValueChange = { subjectName = it },
-                    label = { Text("Subject Name") },
-                    modifier = Modifier
-                        .weight(3f)
-                        .padding(5.dp),
-                    singleLine = true
-                )
-            }
-
-            Row(
-                modifier = Modifier,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                if (subjectCode.isEmpty()) {
-                    Text("Subject code empty", color = Color.Red)
-                    Modifier
-                        .weight(1f)
-                        .padding(5.dp)
+                    if (subjectCode.isEmpty()) {
+                        Text("Subject code empty", color = Color.Red)
+                    }
                 }
-                if (subjectName.isEmpty()) {
-                    Text("Subject name empty", color = Color.Red)
-                    Modifier
-                        .weight(3f)
-                        .padding(5.dp)
+
+                Column(
+                    modifier = Modifier
+                        .weight(3f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    OutlinedTextField(
+                        value = subjectName,
+                        onValueChange = { subjectName = it },
+                        label = { Text("Subject Name") },
+                        singleLine = true
+                    )
+
+                    if (subjectName.isEmpty()) {
+                        Text("Subject name empty", color = Color.Red)
+                    }
                 }
             }
+
 
             Row(
                 modifier = Modifier
@@ -125,6 +130,7 @@ fun SubjectAddScreen(
                     }
                 }
             }
+
 
             if (subjectDay.isEmpty()) {
                 Text(
@@ -206,16 +212,26 @@ fun SubjectAddScreen(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
                     onClick = {
                         // TODO: Add action for Cancel button
+                        // Set all variables back to their initial state
+                        subjectCode = ""
+                        subjectName = ""
+                        subjectDescription = ""
+                        selectedStartTime = "00:00 AM"
+                        selectedEndTime = "00:00 AM"
+                        subjectDay = ""
+                        errorMessage = null
+                        navController.navigate(MainRoute.Subjects.name)
                     },
                     modifier = Modifier
                         .weight(1f)
+                        .padding(5.dp),
+                    shape = RoundedCornerShape(8.dp)
                 ) {
                     Text("Cancel", color = Color.White)
                     Icon(
@@ -230,8 +246,8 @@ fun SubjectAddScreen(
                         coroutineScope.launch {
                             // Check Subject Code, Name, and Selected Day before saving
                             if (subjectCode.isNotEmpty() && subjectName.isNotEmpty() && subjectDay.isNotEmpty()) {
-                                // Save subject information using ViewModel
-                                subjectAddViewModel.saveSubject(
+                                // Call insertSubject function of the ViewModel
+                                val subjectAddInputs = SubjectAddInputs(
                                     subjectCode = subjectCode,
                                     subjectName = subjectName,
                                     subjectDay = subjectDay,
@@ -240,12 +256,26 @@ fun SubjectAddScreen(
                                     subjectDescription = subjectDescription
                                 )
 
-                                // TODO: Navigate back or perform any other action after saving
+                                val result = subjectAddViewModel.insertSubject(subjectAddInputs)
+
+                                // Handle the result accordingly
+                                when (result) {
+                                    is SubjectAddResult.Success -> {
+                                        // TODO: Navigate back or perform any other action after saving
+                                        navController.navigate(SubjectRoute.SubjectRegisterSplash.name)
+                                    }
+                                    is SubjectAddResult.Failure -> {
+                                        // Set the error message
+                                        errorMessage = result.errorMessage
+                                    }
+                                }
                             }
                         }
                     },
                     modifier = Modifier
                         .weight(1f)
+                        .padding(5.dp),
+                    shape = RoundedCornerShape(8.dp)
                 ) {
                     Text("Save", color = Color.White)
                     Icon(
@@ -254,6 +284,18 @@ fun SubjectAddScreen(
                         tint = Color.White
                     )
                 }
+            }
+
+            // Display the error message below the buttons if it is not null
+            errorMessage?.let {
+                Text(
+                    text = it,
+                    color = Color.Red,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth()
+                        .wrapContentSize(Alignment.Center)
+                )
             }
         }
     }

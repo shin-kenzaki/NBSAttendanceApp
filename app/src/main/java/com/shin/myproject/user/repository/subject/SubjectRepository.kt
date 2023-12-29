@@ -1,9 +1,7 @@
 package com.shin.myproject.user.repository.subject
 
 
-import com.shin.myproject.data.mainscreenModel.studentModel.Student
 import com.shin.myproject.data.mainscreenModel.subjectModel.Subject
-import kotlinx.coroutines.flow.Flow
 
 interface SubjectRepository {
 
@@ -21,4 +19,8 @@ interface SubjectRepository {
      * Update a student in the data source.
      */
     suspend fun updateSubject(subject: Subject)
+
+    suspend fun getSubjectByCode(code: String): Subject?
+
+    suspend fun getSubjectsByUserIdAndDay(userId: Long, day: String): List<Subject>
 }

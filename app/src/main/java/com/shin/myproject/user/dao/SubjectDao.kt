@@ -19,6 +19,9 @@ interface SubjectDao {
     @Delete
     suspend fun delete(subject: Subject)
 
-//    @Query("DELETE FROM Subjects WHERE user_id = :userId")
-//    fun deleteSubjectsByUserId(userId: Int)
+    @Query("SELECT * FROM subjects WHERE subjectCode = :code")
+    suspend fun getSubjectByCode(code: String): Subject?
+
+    @Query("SELECT * FROM subjects WHERE user_id = :userId AND subjectDay = :day")
+    suspend fun getSubjectsByUserIdAndDay(userId: Long, day: String): List<Subject>
 }

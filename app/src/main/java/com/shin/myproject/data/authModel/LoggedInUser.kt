@@ -1,18 +1,29 @@
 package com.shin.myproject.data.authModel
 
-import androidx.lifecycle.ViewModel
-
-/**
- * Data class to store logged-in user information.
- */
 data class LoggedInUser(
-    val userId: Int,
+    val userId: Long,
     val firstname: String,
     val lastname: String,
     val email: String,
     val phone: String
 )
 
-class SharedViewModel : ViewModel() {
-    var loggedInUser: LoggedInUser? = null
+object LoggedInUserHolder {
+    private var loggedInUser: LoggedInUser? = null
+
+    fun setLoggedInUser(user: LoggedInUser) {
+        loggedInUser = user
+    }
+
+    fun getLoggedInUser(): LoggedInUser? {
+        return loggedInUser
+    }
+
+    fun clearLoggedInUser() {
+        loggedInUser = null
+    }
+
+    fun isLoggedIn(): Boolean {
+        return loggedInUser != null
+    }
 }

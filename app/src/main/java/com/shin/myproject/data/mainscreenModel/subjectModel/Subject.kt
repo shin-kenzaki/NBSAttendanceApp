@@ -14,20 +14,14 @@ import com.shin.myproject.data.authModel.User
         onDelete = ForeignKey.CASCADE)])
 data class Subject(
     @ColumnInfo(name = "user_id")
-    val userId: Int,
+    val userId: Long,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "subject_id")
-    val subjectId: Int = 0,
-    @ColumnInfo(name = "subject_code")
+    val subjectId: Long = 0,
     val subjectCode: String,
-    @ColumnInfo(name = "subject_name")
     val subjectName: String,
-    @ColumnInfo(name = "subject_day")
     val subjectDay: String,
-    @ColumnInfo(name = "start_time")
     val startTime: String,
-    @ColumnInfo(name = "end_time")
     val endTime: String,
-    @ColumnInfo(name = "subject_description")
     val subjectDescription: String
 )
