@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.shin.myproject.NBSAttendanceApp
+import com.shin.myproject.ViewModel.student.StudentListViewModel
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
 import com.shin.myproject.ViewModel.subject.SubjectListViewModel
 import com.shin.myproject.ViewModel.user.LoginViewModel
@@ -41,6 +42,14 @@ object AppViewModelProvider {
         initializer {
             SubjectListViewModel (
                 nbsAttendanceApplication().container.subjectRepository,
+            )
+        }
+
+        // Initializer for StudentListViewModel
+        initializer {
+            StudentListViewModel (
+                nbsAttendanceApplication().container.studentRepository,
+                nbsAttendanceApplication().container.subjectRepository
             )
         }
 

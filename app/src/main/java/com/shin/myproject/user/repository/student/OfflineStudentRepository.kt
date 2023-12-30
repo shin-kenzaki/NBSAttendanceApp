@@ -11,4 +11,8 @@ class OfflineStudentRepository(private val studentDao: StudentDao) : StudentRepo
     override suspend fun deleteStudent(student: Student) = studentDao.delete(student)
 
     override suspend fun updateStudent(student: Student) = studentDao.update(student)
+
+    override fun getStudentsForSubject(subjectId: Long): Flow<List<Student>> {
+        return studentDao.getStudentsForSubject(subjectId)
+    }
 }

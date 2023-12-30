@@ -19,4 +19,9 @@ interface StudentRepository {
      * Update a student in the data source.
      */
     suspend fun updateStudent(student: Student)
+
+    /**
+     * Get all students for a specific subject.
+     */
+    fun getStudentsForSubject(subjectId: Long): Flow<List<Student>>
 }

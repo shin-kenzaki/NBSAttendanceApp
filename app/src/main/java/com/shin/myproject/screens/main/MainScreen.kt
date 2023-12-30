@@ -3,6 +3,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CreateNewFolder
+import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.ScreenViewModel
 import com.shin.myproject.ViewModel.splash.SubjectRegisterSplashScreen
+import com.shin.myproject.ViewModel.student.StudentListViewModel
 import com.shin.myproject.navigation.bottomNavBar.BottomNavBar
 import com.shin.myproject.navigation.routes.MainRoute
 import com.shin.myproject.navigation.routes.ProfileRoute
@@ -49,9 +51,12 @@ data class TopBarInfo(val title: String, val actionIcon: ImageVector?, val actio
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(
+    navController: NavHostController
+) {
     val navController: NavHostController = rememberNavController()
     val screenViewModel: ScreenViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    val studentListViewModel: StudentListViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
     // State variable to hold the current top bar information
     var currentTopBarInfo by remember {
@@ -73,7 +78,6 @@ fun MainScreen(navController: NavHostController) {
                         currentTopBarInfo.actionIcon?.let { icon ->
                             IconButton(
                                 onClick = {
-                                    // Handle the click event for the action icon
                                     // Navigate to the specified route when the action button is clicked
                                     currentTopBarInfo.actionRoute?.let { route ->
                                         navController.navigate(route)
@@ -103,7 +107,7 @@ fun MainScreen(navController: NavHostController) {
                 MainRoute.Profile.name -> TopBarInfo("Profile", Icons.Default.Settings, ProfileRoute.ProfileSettings.name)
 
                 SubjectRoute.AddSubjectScreen.name -> TopBarInfo("Create New Subject", null, null)
-
+                SubjectRoute.StudentsScreen.name -> TopBarInfo("Students", Icons.Default.PersonAdd, SubjectRoute.AddStudentScreen.name)
                 ProfileRoute.ProfileSettings.name -> TopBarInfo("Account Settings", null, null)
 
                 else -> TopBarInfo("", null, null)
@@ -127,7 +131,7 @@ fun MainScreen(navController: NavHostController) {
                         SubjectScreen(navController)
                     }
                     composable(route = SubjectRoute.StudentsScreen.name) {
-                        StudentScreen(navController)//edit this
+                        StudentScreen(navController)
                     }
                     composable(route = SubjectRoute.AddSubjectScreen.name) {
                         SubjectAddScreen(navController)
