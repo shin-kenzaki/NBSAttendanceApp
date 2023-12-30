@@ -28,8 +28,10 @@ import me.saket.swipe.SwipeableActionsBox
 
 
 @Composable
-fun subjectCard(subject: Subject, onClick: () -> Unit, onCardClick: () -> Unit) {
-
+fun SubjectCard(
+    subject: Subject,
+    onClick: () -> Unit
+) {
     val logo = SubjectLogos.getLogoForSubject(subject.subjectName)
     val archive = SwipeAction(
         onSwipe = {
@@ -46,9 +48,7 @@ fun subjectCard(subject: Subject, onClick: () -> Unit, onCardClick: () -> Unit) 
         background = Color.LightGray
     )
     val delete = SwipeAction(
-        onSwipe = {
-            Log.d("MainActivity", "Delete")
-        },
+        onSwipe = { },
         icon = {
             Icon(
                 modifier = Modifier.padding(16.dp),
@@ -58,7 +58,6 @@ fun subjectCard(subject: Subject, onClick: () -> Unit, onCardClick: () -> Unit) 
             )
         },
         background = Color.Red
-
     )
 
     SwipeableActionsBox(startActions = listOf(archive), endActions = listOf(delete)) {
@@ -73,7 +72,6 @@ fun subjectCard(subject: Subject, onClick: () -> Unit, onCardClick: () -> Unit) 
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clickable { onClick() }
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {

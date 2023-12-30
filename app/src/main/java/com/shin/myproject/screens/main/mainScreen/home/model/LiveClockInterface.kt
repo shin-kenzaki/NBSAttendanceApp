@@ -1,4 +1,4 @@
-package com.shin.myproject
+package com.shin.myproject.screens.main.mainScreen.home.model
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat

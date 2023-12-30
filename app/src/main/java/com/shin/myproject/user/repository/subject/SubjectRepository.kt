@@ -23,4 +23,6 @@ interface SubjectRepository {
     suspend fun getSubjectByCode(code: String): Subject?
 
     suspend fun getSubjectsByUserIdAndDay(userId: Long, day: String): List<Subject>
+
+    suspend fun getAllSubjectsByUserId(userId: Long): List<Subject>
 }

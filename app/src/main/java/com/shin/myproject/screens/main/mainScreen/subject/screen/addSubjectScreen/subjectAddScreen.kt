@@ -42,7 +42,6 @@ import com.shin.myproject.ViewModel.subject.SubjectAddInputs
 import com.shin.myproject.ViewModel.subject.SubjectAddResult
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
 import com.shin.myproject.navigation.routes.MainRoute
-import com.shin.myproject.navigation.routes.SubjectRoute
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.Clock
 import kotlinx.coroutines.launch
 
@@ -60,6 +59,7 @@ fun SubjectAddScreen(
     var selectedEndTime by remember { mutableStateOf("00:00 AM") }
     var subjectDay by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var saveButtonClicked by remember { mutableStateOf(false) }
 
     LazyColumn(
         modifier = Modifier
@@ -85,7 +85,7 @@ fun SubjectAddScreen(
                         singleLine = true
                     )
 
-                    if (subjectCode.isEmpty()) {
+                    if (saveButtonClicked && subjectCode.isEmpty()) {
                         Text("Subject code empty", color = Color.Red)
                     }
                 }
@@ -102,7 +102,7 @@ fun SubjectAddScreen(
                         singleLine = true
                     )
 
-                    if (subjectName.isEmpty()) {
+                    if (saveButtonClicked && subjectName.isEmpty()) {
                         Text("Subject name empty", color = Color.Red)
                     }
                 }
@@ -131,8 +131,7 @@ fun SubjectAddScreen(
                 }
             }
 
-
-            if (subjectDay.isEmpty()) {
+            if (saveButtonClicked && subjectDay.isEmpty()) {
                 Text(
                     text = "Please select day",
                     color = Color.Red,
@@ -226,6 +225,7 @@ fun SubjectAddScreen(
                         selectedEndTime = "00:00 AM"
                         subjectDay = ""
                         errorMessage = null
+                        saveButtonClicked = false
                         navController.navigate(MainRoute.Subjects.name)
                     },
                     modifier = Modifier
@@ -243,6 +243,7 @@ fun SubjectAddScreen(
 
                 Button(
                     onClick = {
+                        saveButtonClicked = true
                         coroutineScope.launch {
                             // Check Subject Code, Name, and Selected Day before saving
                             if (subjectCode.isNotEmpty() && subjectName.isNotEmpty() && subjectDay.isNotEmpty()) {
@@ -261,8 +262,18 @@ fun SubjectAddScreen(
                                 // Handle the result accordingly
                                 when (result) {
                                     is SubjectAddResult.Success -> {
-                                        // TODO: Navigate back or perform any other action after saving
-                                        navController.navigate(SubjectRoute.SubjectRegisterSplash.name)
+                                        // Clear all inputs after successful saving
+                                        subjectCode = ""
+                                        subjectName = ""
+                                        subjectDescription = ""
+                                        selectedStartTime = "00:00 AM"
+                                        selectedEndTime = "00:00 AM"
+                                        subjectDay = ""
+                                        errorMessage = null
+                                        saveButtonClicked = false
+
+                                        //Navigate to SubjectList
+                                        navController.navigate(MainRoute.Subjects.name)
                                     }
                                     is SubjectAddResult.Failure -> {
                                         // Set the error message
