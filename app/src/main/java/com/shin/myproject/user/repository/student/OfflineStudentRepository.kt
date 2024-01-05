@@ -15,4 +15,9 @@ class OfflineStudentRepository(private val studentDao: StudentDao) : StudentRepo
     override fun getStudentsForSubject(subjectId: Long): Flow<List<Student>> {
         return studentDao.getStudentsForSubject(subjectId)
     }
+
+    override suspend fun checkIfStudentExistsInSubject(subjectId: Long, studentCode: Int): Boolean {
+        val count = studentDao.checkIfStudentExistsInSubject(subjectId, studentCode)
+        return count > 0
+    }
 }

@@ -30,4 +30,7 @@ interface SubjectDao {
 
     @Query("SELECT * FROM subjects WHERE subject_id = :subjectId")
     suspend fun getSubjectById(subjectId: Long): Subject?
+
+    @Query("SELECT * FROM subjects WHERE user_id = :userId AND subject_id = :subjectId")
+    suspend fun getSubjectByUserIdAndId(userId: Long, subjectId: Long): Subject?
 }

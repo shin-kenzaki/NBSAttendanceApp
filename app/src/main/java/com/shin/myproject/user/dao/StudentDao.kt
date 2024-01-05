@@ -23,4 +23,7 @@ interface StudentDao {
 
     @Query("SELECT * FROM Students WHERE subject_id = :subjectId")
     fun getStudentsForSubject(subjectId: Long): Flow<List<Student>>
+
+    @Query("SELECT COUNT(*) FROM Students WHERE subject_id = :subjectId AND studentCode = :studentCode")
+    suspend fun checkIfStudentExistsInSubject(subjectId: Long, studentCode: Int): Int
 }

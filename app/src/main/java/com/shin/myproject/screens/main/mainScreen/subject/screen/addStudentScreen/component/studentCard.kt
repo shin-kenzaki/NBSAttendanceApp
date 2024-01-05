@@ -3,23 +3,24 @@ package com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScre
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.shin.myproject.data.mainscreenModel.studentModel.Student
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.SubjectInfoItem
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
 import androidx.compose.ui.graphics.Color as ComposeColor
@@ -32,7 +33,7 @@ fun StudentCard(student: Student) {
         },
         icon = {
             Icon(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
                 imageVector = Icons.Default.Check,
                 contentDescription = "mark present",
                 tint = ComposeColor.White
@@ -59,7 +60,7 @@ fun StudentCard(student: Student) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(5.dp)
+                .padding(16.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -71,19 +72,22 @@ fun StudentCard(student: Student) {
                     modifier = Modifier.weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Add any icon or avatar for the student here
+                    Icon(
+                        modifier = Modifier
+                            .size(120.dp)
+                            .padding(horizontal = 10.dp),
+                        imageVector = Icons.Default.Person,
+                        contentDescription = "logo"
+                    )
                 }
 
                 Column(
                     modifier = Modifier.weight(3f),
                 ) {
-                    Text(text = "Student ID: ${student.studentId}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Name: ${student.firstname} ${student.lastname}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Course: ${student.course}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Year: ${student.year}")
+                    SubjectInfoItem(icon = Icons.Default.Info, tag = "Student ID:", content = "${student.studentCode}")
+                    SubjectInfoItem(icon = Icons.Default.Info, tag = "Name:", content = "${student.firstname} ${student.lastname}")
+                    SubjectInfoItem(icon = Icons.Default.Info, tag = "Course:", content = student.course)
+                    SubjectInfoItem(icon = Icons.Default.Info, tag = "Year:", content = student.year)
                 }
             }
         }

@@ -1,18 +1,14 @@
 package com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
@@ -31,9 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -43,6 +37,7 @@ import com.shin.myproject.ViewModel.subject.SubjectAddResult
 import com.shin.myproject.ViewModel.subject.SubjectAddViewModel
 import com.shin.myproject.navigation.routes.MainRoute
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.Clock
+import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.RadioButtonOption
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,7 +52,9 @@ fun SubjectAddScreen(
     var subjectDescription by remember { mutableStateOf("") }
     var selectedStartTime by remember { mutableStateOf("00:00 AM") }
     var selectedEndTime by remember { mutableStateOf("00:00 AM") }
+
     var subjectDay by remember { mutableStateOf("") }
+
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var saveButtonClicked by remember { mutableStateOf(false) }
 
@@ -75,7 +72,8 @@ fun SubjectAddScreen(
             ) {
                 Column(
                     modifier = Modifier
-                        .weight(2f),
+                        .weight(1f)
+                        .padding(5.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     OutlinedTextField(
@@ -92,11 +90,12 @@ fun SubjectAddScreen(
 
                 Column(
                     modifier = Modifier
-                        .weight(3f),
+                        .weight(1f)
+                        .padding(5.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     OutlinedTextField(
-                        value = subjectName,
+                        value = autocapitalizeFirstLetter(subjectName),
                         onValueChange = { subjectName = it },
                         label = { Text("Subject Name") },
                         singleLine = true
@@ -108,44 +107,65 @@ fun SubjectAddScreen(
                 }
             }
 
+            Text("Select Days", modifier = Modifier.padding(8.dp))
 
-            Row(
+            LazyRow(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                val daysOfWeek = listOf(
-                    "Mon" to "Monday",
-                    "Tue" to "Tuesday",
-                    "Wed" to "Wednesday",
-                    "Thu" to "Thursday",
-                    "Fri" to "Friday",
-                    "Sat" to "Saturday"
-                )
-                daysOfWeek.forEach { (abbrev, fullName) ->
-                    DaySelection(abbrev, subjectDay) {
-                        subjectDay = it
-                    }
+                item {
+                    RadioButtonOption(
+                        text = "MONDAY",
+                        selectedOption = subjectDay,
+                        onOptionSelected = { subjectDay = it }
+                    )
+                }
+
+                item {
+                    RadioButtonOption(
+                        text = "TUESDAY",
+                        selectedOption = subjectDay,
+                        onOptionSelected = { subjectDay = it }
+                    )
+                }
+
+                item {
+                    RadioButtonOption(
+                        text = "WEDNESDAY",
+                        selectedOption = subjectDay,
+                        onOptionSelected = { subjectDay = it }
+                    )
+                }
+
+                item {
+                    RadioButtonOption(
+                        text = "THURSDAY",
+                        selectedOption = subjectDay,
+                        onOptionSelected = { subjectDay = it }
+                    )
+                }
+
+                item {
+                    RadioButtonOption(
+                        text = "FRIDAY",
+                        selectedOption = subjectDay,
+                        onOptionSelected = { subjectDay = it }
+                    )
+                }
+
+                item {
+                    RadioButtonOption(
+                        text = "SATURDAY",
+                        selectedOption = subjectDay,
+                        onOptionSelected = { subjectDay = it }
+                    )
                 }
             }
 
-            if (saveButtonClicked && subjectDay.isEmpty()) {
-                Text(
-                    text = "Please select day",
-                    color = Color.Red,
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center)  // Center the content inside the parent
-                )
-            }
-
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -206,7 +226,6 @@ fun SubjectAddScreen(
                 label = { Text("Subject Description") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp)
             )
 
             Row(
@@ -247,6 +266,7 @@ fun SubjectAddScreen(
                         coroutineScope.launch {
                             // Check Subject Code, Name, and Selected Day before saving
                             if (subjectCode.isNotEmpty() && subjectName.isNotEmpty() && subjectDay.isNotEmpty()) {
+
                                 // Call insertSubject function of the ViewModel
                                 val subjectAddInputs = SubjectAddInputs(
                                     subjectCode = subjectCode,
@@ -312,25 +332,8 @@ fun SubjectAddScreen(
     }
 }
 
-@Composable
-fun DaySelection(abbrev: String, selectedDay: String, onDayClick: (String) -> Unit) {
-    val isClicked = abbrev == selectedDay
-    val circleColor = if (isClicked) Color.Red else Color.Gray
 
-    Box(
-        modifier = Modifier
-            .size(50.dp)
-            .clip(CircleShape)
-            .background(circleColor)
-            .clickable {
-                onDayClick(abbrev)
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = abbrev,
-            color = Color.White,
-            fontWeight = FontWeight.Bold
-        )
-    }
+@Composable
+fun autocapitalizeFirstLetter(text: String): String {
+    return text.split(" ").joinToString(" ") { it.lowercase().capitalize() }
 }

@@ -4,18 +4,18 @@ import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Subject
+import androidx.compose.material.icons.filled.Today
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,7 +64,7 @@ fun SubjectCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(5.dp)
+                .padding(16.dp)
                 .clickable {
                     onClick()
                 }
@@ -81,7 +81,7 @@ fun SubjectCard(
                 ) {
                     Icon(
                         modifier = Modifier
-                            .size(60.dp)
+                            .size(120.dp)
                             .padding(horizontal = 10.dp),
                         imageVector = logo,
                         contentDescription = "logo"
@@ -92,15 +92,12 @@ fun SubjectCard(
                 Column(
                     modifier = Modifier.weight(3f),
                 ) {
-                    Text(text = "Code: ${subject.subjectCode}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Name: ${subject.subjectName}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Day: ${subject.subjectDay}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Time: ${subject.startTime} - ${subject.endTime}")
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "Description: ${subject.subjectDescription}")
+                    // Display icons for Code, Name, Day, Time, and Description
+                    SubjectInfoItem(icon = Icons.Default.Subject, tag = "Code:", content = "${subject.subjectCode}")
+                    SubjectInfoItem(icon = Icons.Default.Subject, tag = "Name:", content = "${subject.subjectName}")
+                    SubjectInfoItem(icon = Icons.Default.Today, tag = "Day:", content = "${subject.subjectDay}")
+                    SubjectInfoItem(icon = Icons.Default.AccessTime, tag = "Time:", content = "${subject.startTime} - ${subject.endTime}")
+                    SubjectInfoItem(icon = Icons.Default.Subject, tag = "Description:", content = "${subject.subjectDescription}")
                 }
             }
         }

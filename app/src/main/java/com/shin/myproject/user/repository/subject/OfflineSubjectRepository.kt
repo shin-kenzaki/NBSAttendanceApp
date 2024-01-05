@@ -25,4 +25,8 @@ class OfflineSubjectRepository(private val subjectDao: SubjectDao) : SubjectRepo
     override suspend fun getSubjectById(subjectId: Long): Subject? {
         return subjectDao.getSubjectById(subjectId)
     }
+
+    override suspend fun getSubjectByUserIdAndId(userId: Long, subjectId: Long): Subject? {
+        return subjectDao.getSubjectByUserIdAndId(userId, subjectId)
+    }
 }

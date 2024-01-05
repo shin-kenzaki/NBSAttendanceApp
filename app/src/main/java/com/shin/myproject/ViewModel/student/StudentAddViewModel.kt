@@ -2,23 +2,47 @@ package com.shin.myproject.ViewModel.student
 
 import androidx.lifecycle.ViewModel
 import com.shin.myproject.data.mainscreenModel.studentModel.Student
-import com.shin.myproject.data.mainscreenModel.studentModel.StudentList
+import com.shin.myproject.user.repository.student.StudentRepository
 
-class StudentAddViewModel : ViewModel() {
+class StudentAddViewModel (
+    private val studentRepository: StudentRepository,
+    private val studentListViewModel: StudentListViewModel
+) : ViewModel() {
 
-    fun addStudent(id: String, firstName: String, middleInit: String, lastName: String, isWorking: Boolean) {
-        // Create a Student instance with the provided values
-        val studentToAdd = Student(
-            subjectId = 0, // Assuming you want to set subjectId to 0 for now
-            studentNumber = id,
+
+    suspend fun insertStudent(
+        subjectId: Long,
+        studentCode: Int,
+        firstName: String,
+        lastName: String,
+        isWorking: Boolean,
+        course: String,
+        year: String
+    ): StudentAddResult {
+        if (studentCode <= 0 || firstName.isBlank() || lastName.isBlank()) {
+            return StudentAddResult.Failure("Student information cannot be blank")
+        }
+
+        if (studentRepository.checkIfStudentExistsInSubject(subjectId, studentCode)) {
+            return StudentAddResult.Failure("Student with the same code already exists in this subject")
+        }
+
+        val newStudent = Student(
+            subjectId = subjectId,
+            studentCode = studentCode,
             firstname = firstName,
             lastname = lastName,
-            course = "", // You might want to set this to an appropriate value
-            year = 0, // You might want to set this to an appropriate value
-            isWorkingStudent = isWorking
+            isWorkingStudent = isWorking,
+            course = course,
+            year = year
         )
 
-        // Add the student to the list or save it to a database
-        StudentList.students.add(studentToAdd)
+        studentRepository.insertStudent(newStudent)
+        return StudentAddResult.Success("Student added successfully")
     }
+}
+
+sealed class StudentAddResult {
+    data class Success(val message: String = "") : StudentAddResult()
+    data class Failure(val message: String) : StudentAddResult()
 }

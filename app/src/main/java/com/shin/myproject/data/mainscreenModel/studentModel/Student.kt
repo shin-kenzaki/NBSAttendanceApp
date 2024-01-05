@@ -17,11 +17,11 @@ data class Student(
     val studentId: Long = 0,
     @ColumnInfo(name = "subject_id")
     val subjectId: Long,
-    val studentNumber: String,
+    val studentCode: Int,
     val firstname: String,
     val lastname: String,
     val course: String,
-    val year: Int,
+    val year: String,
     @ColumnInfo(name = "is_working_student")
     val isWorkingStudent: Boolean
 )

@@ -24,4 +24,6 @@ interface StudentRepository {
      * Get all students for a specific subject.
      */
     fun getStudentsForSubject(subjectId: Long): Flow<List<Student>>
+
+    suspend fun checkIfStudentExistsInSubject(subjectId: Long, studentCode: Int): Boolean
 }

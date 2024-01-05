@@ -108,6 +108,8 @@ fun MainScreen(
 
                 SubjectRoute.AddSubjectScreen.name -> TopBarInfo("Create New Subject", null, null)
                 SubjectRoute.StudentsScreen.name -> TopBarInfo("Students", Icons.Default.PersonAdd, SubjectRoute.AddStudentScreen.name)
+                SubjectRoute.AddStudentScreen.name -> TopBarInfo("Add New Student", null, null)
+
                 ProfileRoute.ProfileSettings.name -> TopBarInfo("Account Settings", null, null)
 
                 else -> TopBarInfo("", null, null)
@@ -131,7 +133,7 @@ fun MainScreen(
                         SubjectScreen(navController)
                     }
                     composable(route = SubjectRoute.StudentsScreen.name) {
-                        StudentScreen(navController)
+                        StudentScreen()
                     }
                     composable(route = SubjectRoute.AddSubjectScreen.name) {
                         SubjectAddScreen(navController)
