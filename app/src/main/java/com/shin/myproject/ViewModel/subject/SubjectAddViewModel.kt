@@ -44,7 +44,8 @@ class SubjectAddViewModel(
             subjectDay = subjectDay,
             startTime = startTime,
             endTime = endTime,
-            subjectDescription = subjectDescription
+            subjectDescription = subjectDescription,
+            archived = false
         )
 
         subjectRepository.insertSubject(subject)

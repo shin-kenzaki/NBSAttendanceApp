@@ -27,8 +27,8 @@ class SubjectListViewModel(
     fun loadSubjects() {
         if (loggedInUserId != -1L) {
             viewModelScope.launch {
-                // Use the SubjectRepository to get the subjects
-                val subjects = subjectRepository.getAllSubjectsByUserId(loggedInUserId)
+                // Use the SubjectRepository to get non-archived subjects
+                val subjects = subjectRepository.getAllSubjectsByUserId(loggedInUserId, includeArchived = false)
                 _subjectList.postValue(subjects)
             }
         }
@@ -39,6 +39,29 @@ class SubjectListViewModel(
         SelectedSubjectIdHolder.setSelectedSubjectId(subjectId)
         Log.d("SubjectListViewModel", "Subject clicked: $subjectId")
         loadSubjectInfo()
+    }
+
+    fun onDelete(subjectId: Long) {
+        viewModelScope.launch {
+            subjectRepository.getSubjectById(subjectId)?.let { subject ->
+                subjectRepository.deleteSubject(subject)
+                loadSubjects()
+            } ?: run {
+                Log.d("SubjectListViewModel", "Subject is null for ID: $subjectId")
+            }
+        }
+    }
+
+    fun onArchive(subjectId: Long) {
+        viewModelScope.launch {
+            subjectRepository.getSubjectById(subjectId)?.let { subject ->
+                val archivedSubject = subject.copy(archived = true)
+                subjectRepository.updateSubject(archivedSubject)
+                loadSubjects()
+            } ?: run {
+                Log.d("SubjectListViewModel", "Subject is null for ID: $subjectId")
+            }
+        }
     }
 
     // Function to retrieve subject code and name

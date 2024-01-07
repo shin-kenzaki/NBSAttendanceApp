@@ -18,6 +18,17 @@ class RegisterViewModel(
         return userRepository.isEmailExist(email)
     }
 
+    private fun validatePassword(password: String): RegistrationResult {
+        // Password should be at least 8 characters with at least 1 or more numbers
+        val passwordRegex = "^(?=.*[0-9]).{8,}$".toRegex()
+
+        return if (!password.matches(passwordRegex)) {
+            RegistrationResult.Failure("Password must be 8 characters with at least 1 number.")
+        } else {
+            RegistrationResult.Success()
+        }
+    }
+
     suspend fun validateAndRegisterUser(registrationInput: RegistrationInput): RegistrationResult {
         // Validate the input
         if (registrationInput.firstname.isBlank() ||
@@ -29,6 +40,10 @@ class RegisterViewModel(
             return RegistrationResult.Failure("All fields must be filled.")
         }
 
+        val passwordValidationResult = validatePassword(registrationInput.password)
+        if (passwordValidationResult is RegistrationResult.Failure) {
+            return passwordValidationResult
+        }
         // Create RegistrationData with validated input
         val registrationData = RegistrationData(
             firstname = registrationInput.firstname,

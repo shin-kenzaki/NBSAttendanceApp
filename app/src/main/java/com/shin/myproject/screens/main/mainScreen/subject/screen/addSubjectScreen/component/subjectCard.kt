@@ -30,12 +30,15 @@ import me.saket.swipe.SwipeableActionsBox
 @Composable
 fun SubjectCard(
     subject: Subject,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onArchive: (Subject) -> Unit,
+    onDelete: (Subject) -> Unit
 ) {
     val logo = SubjectLogos.getLogoForSubject(subject.subjectName)
     val archive = SwipeAction(
         onSwipe = {
-            Log.d("MainActivity", "Archive")
+            onArchive(subject)
+            Log.d("SwipeAction", "Archived subject: ${subject.subjectName}")
         },
         icon = {
             Icon(
@@ -48,7 +51,10 @@ fun SubjectCard(
         background = Color.LightGray
     )
     val delete = SwipeAction(
-        onSwipe = { },
+        onSwipe = {
+            onDelete(subject)
+            Log.d("SwipeAction", "Deleted subject: ${subject.subjectName}")
+        },
         icon = {
             Icon(
                 modifier = Modifier.padding(16.dp),
@@ -59,7 +65,6 @@ fun SubjectCard(
         },
         background = Color.Red
     )
-
     SwipeableActionsBox(startActions = listOf(archive), endActions = listOf(delete)) {
         Card(
             modifier = Modifier
@@ -88,7 +93,6 @@ fun SubjectCard(
                     )
                 }
 
-
                 Column(
                     modifier = Modifier.weight(3f),
                 ) {
@@ -101,5 +105,24 @@ fun SubjectCard(
                 }
             }
         }
+
+        Icon(
+            modifier = Modifier
+                .size(24.dp)
+                .padding(horizontal = 8.dp),
+            imageVector = Icons.Default.Archive,
+            contentDescription = "Archive",
+            tint = Color.Gray
+        )
+
+        Icon(
+            modifier = Modifier
+                .size(24.dp)
+                .padding(horizontal = 8.dp),
+            imageVector = Icons.Default.Delete,
+            contentDescription = "Delete",
+            tint = Color.Gray
+        )
     }
 }
+

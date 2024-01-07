@@ -28,5 +28,5 @@ interface SubjectRepository {
 
     suspend fun getSubjectById(subjectId: Long): Subject?
 
-    suspend fun getSubjectByUserIdAndId(userId: Long, subjectId: Long): Subject?
+    suspend fun getAllSubjectsByUserId(userId: Long, includeArchived: Boolean): List<Subject>
 }

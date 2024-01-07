@@ -23,5 +23,6 @@ data class Subject(
     val subjectDay: String,
     val startTime: String,
     val endTime: String,
-    val subjectDescription: String
+    val subjectDescription: String,
+    val archived: Boolean
 )
