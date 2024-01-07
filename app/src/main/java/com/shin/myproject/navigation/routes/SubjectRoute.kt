@@ -4,6 +4,7 @@ enum class SubjectRoute {
     AddSubjectScreen,
     AddStudentScreen,
     StudentsScreen,
+    ArchivedSubjectsScreen,
 
     SubjectRegisterSplash
 }

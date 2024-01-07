@@ -41,6 +41,7 @@ import com.shin.myproject.screens.main.mainScreen.home.screen.HomeScreen
 import com.shin.myproject.screens.main.mainScreen.notification.screen.NotificationScreen
 import com.shin.myproject.screens.main.mainScreen.profile.screen.ProfileScreen
 import com.shin.myproject.screens.main.mainScreen.profile.screen.ProfileSettings
+import com.shin.myproject.screens.main.mainScreen.subject.screen.ArchivedSubjectScreen
 import com.shin.myproject.screens.main.mainScreen.subject.screen.StudentScreen
 import com.shin.myproject.screens.main.mainScreen.subject.screen.SubjectScreen
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addStudentScreen.StudentAddScreen
@@ -57,6 +58,8 @@ fun MainScreen(
     val navController: NavHostController = rememberNavController()
     val screenViewModel: ScreenViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val studentListViewModel: StudentListViewModel = viewModel(factory = AppViewModelProvider.Factory)
+
+
 
     // State variable to hold the current top bar information
     var currentTopBarInfo by remember {
@@ -108,6 +111,7 @@ fun MainScreen(
 
                 SubjectRoute.AddSubjectScreen.name -> TopBarInfo("Create New Subject", null, null)
                 SubjectRoute.StudentsScreen.name -> TopBarInfo("Students", Icons.Default.PersonAdd, SubjectRoute.AddStudentScreen.name)
+                SubjectRoute.ArchivedSubjectsScreen.name -> TopBarInfo("ArchivedSubjects", null, null)
                 SubjectRoute.AddStudentScreen.name -> TopBarInfo("Add New Student", null, null)
 
                 ProfileRoute.ProfileSettings.name -> TopBarInfo("Account Settings", null, null)
@@ -131,6 +135,9 @@ fun MainScreen(
                 navigation(startDestination = MainRoute.Subjects.name, route = Routes.SUBJECTS.name) {
                     composable(route = MainRoute.Subjects.name) {
                         SubjectScreen(navController)
+                    }
+                    composable(route = SubjectRoute.ArchivedSubjectsScreen.name) {
+                        ArchivedSubjectScreen(navController)
                     }
                     composable(route = SubjectRoute.StudentsScreen.name) {
                         StudentScreen()
@@ -160,6 +167,9 @@ fun MainScreen(
                     composable(route = ProfileRoute.ProfileSettings.name) {
                         ProfileSettings(navController)
                     }
+                }
+                composable(route = Routes.LOGOUT.name ) {
+                    NBSApp()
                 }
             }
         }
