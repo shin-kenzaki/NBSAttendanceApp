@@ -69,7 +69,7 @@ fun SubjectCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 4.dp)
                 .clickable {
                     onClick()
                 }

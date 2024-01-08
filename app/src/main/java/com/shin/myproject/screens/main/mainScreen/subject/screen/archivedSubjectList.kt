@@ -36,7 +36,6 @@ import com.shin.myproject.navigation.routes.MainRoute
 import com.shin.myproject.navigation.routes.SubjectRoute
 import com.shin.myproject.screens.main.mainScreen.subject.screen.addSubjectScreen.component.ArchivedSubjectCard
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArchivedSubjectScreen(
@@ -181,7 +180,7 @@ fun ShowUnarchiveDialog(
             Text(text = "Confirm Archive")
         },
         text = {
-            Text(text = "Do you really want to Archive this ${subject.subjectCode} : ${subject.subjectName}")
+            Text(text = "Do you really want to Unarchive this ${subject.subjectCode} : ${subject.subjectName}")
         },
         confirmButton = {
             Button(

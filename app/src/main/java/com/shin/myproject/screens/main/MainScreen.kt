@@ -29,6 +29,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.shin.myproject.ViewModel.AppViewModelProvider
 import com.shin.myproject.ViewModel.ScreenViewModel
+import com.shin.myproject.ViewModel.splash.LogoutSplashScreen
 import com.shin.myproject.ViewModel.splash.SubjectRegisterSplashScreen
 import com.shin.myproject.ViewModel.student.StudentListViewModel
 import com.shin.myproject.navigation.bottomNavBar.BottomNavBar
@@ -59,7 +60,9 @@ fun MainScreen(
     val screenViewModel: ScreenViewModel = viewModel(factory = AppViewModelProvider.Factory)
     val studentListViewModel: StudentListViewModel = viewModel(factory = AppViewModelProvider.Factory)
 
-
+    // Separate boolean variables for topAppBar and bottomAppBar
+    var isTopAppBarVisible by remember { mutableStateOf(true) }
+    var isBottomAppBarVisible by remember { mutableStateOf(true) }
 
     // State variable to hold the current top bar information
     var currentTopBarInfo by remember {
@@ -68,33 +71,41 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            Surface(
-                color = Color.LightGray
-            ) {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = currentTopBarInfo.title
-                        )
-                    },
-                    actions = {
-                        currentTopBarInfo.actionIcon?.let { icon ->
-                            IconButton(
-                                onClick = {
-                                    // Navigate to the specified route when the action button is clicked
-                                    currentTopBarInfo.actionRoute?.let { route ->
-                                        navController.navigate(route)
+            // Conditionally render the topAppBar based on isTopAppBarVisible
+            if (isTopAppBarVisible) {
+                Surface(
+                    color = Color.LightGray
+                ) {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = currentTopBarInfo.title
+                            )
+                        },
+                        actions = {
+                            currentTopBarInfo.actionIcon?.let { icon ->
+                                IconButton(
+                                    onClick = {
+                                        // Navigate to the specified route when the action button is clicked
+                                        currentTopBarInfo.actionRoute?.let { route ->
+                                            navController.navigate(route)
+                                        }
                                     }
+                                ) {
+                                    Icon(imageVector = icon, contentDescription = null)
                                 }
-                            ) {
-                                Icon(imageVector = icon, contentDescription = null)
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
         },
-        bottomBar = { BottomNavBar(navController = navController) }
+        bottomBar = {
+            // Conditionally render the bottomAppBar based on isBottomAppBarVisible
+            if (isBottomAppBarVisible) {
+                BottomNavBar(navController = navController)
+            }
+        }
     ) {
         Box(modifier = Modifier.padding(it)) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -124,52 +135,79 @@ fun MainScreen(
                 startDestination = MainRoute.HomeScreen.name
             ) {
                 composable(route = MainRoute.HomeScreen.name) {
+                    isTopAppBarVisible = true
+                    isBottomAppBarVisible = true
                     HomeScreen(navController)
                 }
                 composable(route = MainRoute.Dashboard.name) {
+                    isTopAppBarVisible = true
+                    isBottomAppBarVisible = true
                     DashboardScreen(navController)
                 }
                 composable(route = MainRoute.Subjects.name) {
+                    isTopAppBarVisible = true
+                    isBottomAppBarVisible = true
                     SubjectScreen(navController)
                 }
                 navigation(startDestination = MainRoute.Subjects.name, route = Routes.SUBJECTS.name) {
                     composable(route = MainRoute.Subjects.name) {
+                        isTopAppBarVisible = true
+                        isBottomAppBarVisible = true
                         SubjectScreen(navController)
                     }
                     composable(route = SubjectRoute.ArchivedSubjectsScreen.name) {
+                        isBottomAppBarVisible = false
                         ArchivedSubjectScreen(navController)
                     }
                     composable(route = SubjectRoute.StudentsScreen.name) {
+                        isBottomAppBarVisible = false
                         StudentScreen()
                     }
                     composable(route = SubjectRoute.AddSubjectScreen.name) {
+                        isBottomAppBarVisible = false
                         SubjectAddScreen(navController)
                     }
                     composable(route = SubjectRoute.AddStudentScreen.name) {
+                        isBottomAppBarVisible = false
                         StudentAddScreen(navController)
                     }
 
-
                     composable(route = SubjectRoute.SubjectRegisterSplash.name) {
+                        isTopAppBarVisible = false
+                        isBottomAppBarVisible = false
                         SubjectRegisterSplashScreen(navController, screenViewModel)
                     }
                 }
                 composable(route = MainRoute.Notifications.name) {
+                    isTopAppBarVisible = true
+                    isBottomAppBarVisible = true
                     NotificationScreen(navController)
                 }
                 composable(route = MainRoute.Profile.name) {
+                    isTopAppBarVisible = true
+                    isBottomAppBarVisible = true
                     ProfileScreen(navController)
                 }
                 navigation(startDestination = MainRoute.Profile.name, route = Routes.PROFILE.name) {
                     composable(route = MainRoute.Profile.name) {
+                        isTopAppBarVisible = true
+                        isBottomAppBarVisible = true
                         ProfileScreen(navController)
                     }
                     composable(route = ProfileRoute.ProfileSettings.name) {
+                        isBottomAppBarVisible = false
                         ProfileSettings(navController)
                     }
                 }
-                composable(route = Routes.LOGOUT.name ) {
+                composable(route = Routes.APP.name ) {
+                    isTopAppBarVisible = false
+                    isBottomAppBarVisible = false
                     NBSApp()
+                }
+                composable(route = Routes.LOGOUT.name ) {
+                    isTopAppBarVisible = false
+                    isBottomAppBarVisible = false
+                    LogoutSplashScreen(navController, screenViewModel)
                 }
             }
         }

@@ -15,6 +15,9 @@ class ScreenViewModel : ViewModel() {
     private val _isLoggedin = MutableStateFlow(false)
     val isLoggedin = _isLoggedin.asStateFlow()
 
+    private val _isLoggedOut = MutableStateFlow(false)
+    val isLoggedOut = _isLoggedOut.asStateFlow()
+
     private val _isRegistered = MutableStateFlow(false)
     val isRegistered = _isRegistered.asStateFlow()
 
@@ -35,6 +38,16 @@ class ScreenViewModel : ViewModel() {
             delay(2000)
             _isLoggedin.value = true
         }
+    }
+
+    fun logoutUser() {
+        viewModelScope.launch {
+            delay(2000)
+            _isLoggedOut.value = true
+        }
+    }
+    fun resetLogoutUser() {
+        _isLoggedOut.value = false
     }
 
     fun registerUser() {
