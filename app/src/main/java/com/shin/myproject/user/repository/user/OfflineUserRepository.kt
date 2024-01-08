@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.firstOrNull
 class OfflineUserRepository(private val userDao: UserDao) : UserRepository {
     override fun getAllUsersStream(): Flow<List<User>> = userDao.getAllUsers()
 
-    override fun getUserStream(id: Int): Flow<User?> = userDao.getUser(id)
+    override fun getUserStream(id: Long): Flow<User?> = userDao.getUser(id)
 
-    override suspend fun getUserById(userId: Int): User? {
+    override suspend fun getUserById(userId: Long): User? {
         return userDao.getUser(userId).firstOrNull()
     }
 
@@ -32,4 +32,10 @@ class OfflineUserRepository(private val userDao: UserDao) : UserRepository {
 
     override suspend fun updateUser(user: User) = userDao.update(user)
 
+    override suspend fun deleteUserById(userId: Long) {
+        val user = userDao.getUser(userId).firstOrNull()
+        if (user != null) {
+            userDao.delete(user)
+        }
+    }
 }

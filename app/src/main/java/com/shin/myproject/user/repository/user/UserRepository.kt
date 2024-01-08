@@ -12,12 +12,12 @@ interface UserRepository {
     /**
      * Retrieve a user from the given data source that matches with the [id].
      */
-    fun getUserStream(id: Int): Flow<User?>
+    fun getUserStream(id: Long): Flow<User?>
 
     /**
      * Retrieve a user from the given data source that matches with the [userId].
      */
-    suspend fun getUserById(userId: Int): User?
+    suspend fun getUserById(userId: Long): User?
 
     /**
      * Retrieve a user from the given data source that matches with the [email].
@@ -48,4 +48,9 @@ interface UserRepository {
      * Update user in the data source.
      */
     suspend fun updateUser(user: User)
+
+    /**
+     * Delete user from the data source by ID.
+     */
+    suspend fun deleteUserById(userId: Long)
 }

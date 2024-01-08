@@ -1,9 +1,7 @@
 package com.shin.myproject.ViewModel.profile
 
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
 import com.shin.myproject.data.authModel.LoggedInUserHolder
-import com.shin.myproject.navigation.routes.Routes
 import com.shin.myproject.user.repository.user.UserRepository
 
 class SettingsViewModel(
@@ -13,4 +11,17 @@ class SettingsViewModel(
         // Clear the logged-in user data
         LoggedInUserHolder.clearLoggedInUser()
     }
+
+    suspend fun deactivateAccount() {
+        val loggedInUser = LoggedInUserHolder.getLoggedInUser()
+
+        if (loggedInUser != null) {
+            // Delete the user from the repository
+            userRepository.deleteUserById(loggedInUser.userId)
+
+            // Clear the logged-in user data
+            LoggedInUserHolder.clearLoggedInUser()
+        }
+    }
 }
+
